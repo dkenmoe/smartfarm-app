@@ -1,0 +1,97 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+*.egg
+*.egg-info
+dist/
+build/
+eggs/
+parts/
+sdist/
+var/wheels/
+pip-wheel-metadata/
+.tox/
+.installed.cfg
+*.manifest
+
+# PyInstaller
+#  Usually these files are written to the dist directory.
+#  Often these files are created temporarily.
+__pyinstaller/
+#  If you use a dedicated home directory for PyInstaller
+.pyinstaller/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environments
+.env
+.venv
+env.bak
+env.save
+
+# Django specific
+*.log
+*.pot
+*.pyc
+__pycache__/
+media/
+static/
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+
+# OS generated files #
+.DS_Store
+Thumbs.db
+
+# Coverage data
+.coverage
+*.coverage
+*.lcov
+
+# Translations
+*.mo
+*.po
+
+# Temporary files
+*~
+\#*
+
+# Editor backups
+*.bak
+*.swp
+*.swo
+
+# Docker
+Dockerfile.*
+docker-compose.*
+*.dockerignore
+
+# Node.js (if applicable)
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Other files that can be ignored
+*.sqlite
+*.sqlite3
+*.dump
