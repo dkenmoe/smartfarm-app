@@ -46,6 +46,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/smartfarm_2.png"
+  min_sdk_android: 21
+
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -67,6 +73,9 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - web/assets/login.svg
+    - assets/images/smartfarm_2.png
+    - 'assets/images/smartfarm_2_16x16.png'
+    - assets/images/smartfarm.png
     # - images/a_dot_burr.jpeg
     # - images/a_dot_ham.jpeg
 

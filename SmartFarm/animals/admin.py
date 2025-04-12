@@ -33,18 +33,18 @@ class AnimalGroupAdmin(admin.ModelAdmin):
     
 @admin.register(BirthRecord)   
 class BirthRecordAdmin(admin.ModelAdmin):
-    list_display = ('id', 'animal_type', 'breed', 'gender', 'weight_category', 'quantity', 'date_of_birth', 'created_by')
-    search_fields = ('animal_type', 'breed', 'gender', 'weight_category', 'quantity', 'date_of_birth', )
-    list_filter = ('animal_type', 'breed', 'gender', 'weight_category', 'quantity', 'date_of_birth', )
+    list_display = ('id', 'animal_type', 'breed','weight', 'number_of_male', 'number_of_female', 'number_of_died', 'date_of_birth', 'created_by')
+    search_fields = ('animal_type', 'breed', 'weight', 'number_of_male', 'number_of_female', 'number_of_died', 'date_of_birth', )
+    list_filter = ('animal_type', 'breed', 'weight', 'number_of_male', 'number_of_female', 'number_of_died', 'date_of_birth', )
 
 @admin.register(AnimalInventory)   
 class AnimalInventoryAdmin(admin.ModelAdmin):
-    list_display = ('id', 'animal_type', 'breed', 'gender', 'weight_category', 'quantity')
-    search_fields = ('animal_type', 'breed', 'gender', 'weight_category', 'quantity',)
-    list_filter = ('animal_type', 'breed', 'gender', 'weight_category', 'quantity', )
+    list_display = ('id', 'animal_type', 'breed', 'quantity')
+    search_fields = ('animal_type', 'breed', 'quantity',)
+    list_filter = ('animal_type', 'breed', 'quantity', )
 
 @admin.register(DiedRecord)   
 class DiedRecordAdmin(admin.ModelAdmin):
-    list_display = ('id', 'animal_type', 'breed', 'gender', 'weight_category', 'quantity', 'date_of_death', 'created_by')
-    search_fields = ('animal_type', 'breed', 'gender', 'weight_category', 'quantity',)
-    list_filter = ('animal_type', 'breed', 'gender', 'weight_category', 'quantity', )
+    list_display = ('id', 'animal_type', 'breed', 'weight', 'quantity', 'date_of_death', 'created_by')
+    search_fields = ('animal_type', 'breed', 'weight', 'quantity',)
+    list_filter = ('animal_type', 'breed', 'weight', 'quantity', )

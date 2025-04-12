@@ -28,18 +28,6 @@ class _AnimalInventoryScreenState extends State<AnimalInventoryScreen> {
       accessor: (animal) => animal.breedName,
     ),
     ColumnDefinition(
-      id: 'gender',
-      label: 'Gender',
-      visible: true,
-      accessor: (animal) => animal.gender,
-    ),
-    ColumnDefinition(
-      id: 'weightCategory',
-      label: 'Weight Category',
-      visible: true,
-      accessor: (animal) => animal.weightCategoryDisplay,
-    ),
-    ColumnDefinition(
       id: 'quantity',
       label: 'Quantity',
       visible: true,
@@ -113,12 +101,20 @@ class _AnimalInventoryScreenState extends State<AnimalInventoryScreen> {
         title: const Text('Animals Inventory'),
         backgroundColor: Colors.green.shade700,
         elevation: 0,
-        actions: [
+        actions: [          
           // Add a button to control column visibility
           IconButton(
             icon: const Icon(Icons.view_column),
             onPressed: _showColumnVisibilityDialog,
             tooltip: 'Show/Hide Columns',
+          ),
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: Image.asset(
+              'assets/images/smartfarm_2_16x16.png',
+              width: 24,
+              height: 24,
+            ),
           ),
         ],
       ),

@@ -4,9 +4,6 @@ class AnimalInventory {
   final String animalTypeName;
   final int breedId;
   final String breedName;
-  final String gender;
-  final int weightCategoryId;
-  final String weightCategoryDisplay;
   final int quantity;
 
   AnimalInventory({
@@ -15,9 +12,6 @@ class AnimalInventory {
     required this.animalTypeName,
     required this.breedId,
     required this.breedName,
-    required this.gender,
-    required this.weightCategoryId,
-    required this.weightCategoryDisplay,
     required this.quantity,
   });
 
@@ -28,9 +22,6 @@ class AnimalInventory {
       animalTypeName: json['animal_type_name'],
       breedId: json['breed'],
       breedName: json['breed_name'],
-      gender: json['gender'],
-      weightCategoryId: json['weight_category'],
-      weightCategoryDisplay: json['weight_category_display'],
       quantity: json['quantity'] is int ? json['quantity'] : int.parse(json['quantity'].toString()),
     );
   }
@@ -41,8 +32,6 @@ class AnimalInventory {
       'animal_type': animalTypeId,
       // Lors de l'envoi, on n'a pas besoin d'envoyer les noms car le serveur les ignore
       'breed': breedId,
-      'gender': gender,
-      'weight_category': weightCategoryId,
       'quantity': quantity,
     };
   }

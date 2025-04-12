@@ -1,6 +1,6 @@
+
 import 'package:firstapp/models/animal_breed.dart';
 import 'package:firstapp/models/animal_type.dart';
-import 'package:firstapp/models/weight_category.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../models/birth_record.dart';
@@ -16,22 +16,20 @@ class BirthRegistrationScreen extends StatefulWidget {
 }
 
 class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
-  final TextEditingController quantityController = TextEditingController();
+  final TextEditingController weightController = TextEditingController();
+  final TextEditingController numberOfMaleController = TextEditingController();
+  final TextEditingController numberOfFemaleController = TextEditingController();
+  final TextEditingController numberOfDiedController = TextEditingController();
   DateTime selectedDate = DateTime.now();
 
   int? selectedAnimalTypeId;
   int? selectedBreedId;
-  String? selectedGender;
-  int? selectedWeightCategoryId;
 
   Map<String, AnimalType> animalTypeMap = {};
   Map<String, AnimalBreed> breedMap = {};
-  Map<String, WeightCategory> weightCategoryMap = {};
-  List<String> genders = ["Male", "Female"];
 
   List<String> animalTypeNames = [];
   List<String> breedNames = [];
-  List<String> weightCategoryNames = [];
 
   String? selectedAnimalTypeName;
   String? selectedBreedName;
@@ -41,7 +39,6 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
   void initState() {
     super.initState();
     _loadAnimalTypes();
-    _loadWeightCategories();
   }
 
   Future<void> _loadAnimalTypes() async {
@@ -52,10 +49,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
         animalTypeNames = animalTypeMap.keys.toList();
       });
     } catch (e) {
-      _showSnackbar(
-        "Error loading animal types.",
-        Colors.red,
-      );
+      _showSnackbar("Error loading animal types.", Colors.red);
     }
   }
 
@@ -76,43 +70,44 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
     }
   }
 
-  Future<void> _loadWeightCategories() async {
-    try {
-      List<WeightCategory> categories =
-          await ApiService.fetchWeightCategories();
-      setState(() {
-        weightCategoryMap = {for (var cat in categories) cat.name: cat};
-        weightCategoryNames = weightCategoryMap.keys.toList();
-      });
-    } catch (e) {
-      _showSnackbar(
-        "Error loading weight categories.",
-        Colors.red,
-      );
-    }
-  }
-
   Future<void> _registerBirth() async {
     if (selectedAnimalTypeId == null ||
-        selectedBreedId == null ||
-        selectedGender == null ||
-        selectedWeightCategoryId == null) {
+        selectedBreedId == null) {
       _showSnackbar("Please fill in all fields.", Colors.orange);
       return;
     }
 
-    int quantity = int.tryParse(quantityController.text) ?? 0;
-    if (quantity <= 0) {
-      _showSnackbar("The quantity must be greater than zero.", Colors.orange);
+    double weight = double.tryParse(weightController.text) ?? 0;
+    if (weight <= 0) {
+      _showSnackbar("The weight must be greater than zero.", Colors.orange);
+      return;
+    }
+
+    int numberOfMale = int.tryParse(numberOfMaleController.text) ?? 0;
+    if (numberOfMale < 0) {
+      _showSnackbar("The number of male must be greater or equal to zero.", Colors.orange);
+      return;
+    }
+
+    int numberOfFemale = int.tryParse(numberOfFemaleController.text) ?? 0;
+    if (numberOfFemale < 0) {
+      _showSnackbar("The number of female must be greater or equal to zero.", Colors.orange);
+      return;
+    }
+
+    int numberOfDied = int.tryParse(numberOfDiedController.text) ?? 0;
+    if (numberOfDied < 0) {
+      _showSnackbar("The number of died must be greater or equal to zero.", Colors.orange);
       return;
     }
 
     BirthRecord birthRecord = BirthRecord(
       animalTypeId: selectedAnimalTypeId!,
       breedId: selectedBreedId!,
-      gender: selectedGender!,
-      weightCategoryId: selectedWeightCategoryId!,
-      quantity: quantity,
+      weight: weight,
+      number_of_male: numberOfMale,
+      number_of_female: numberOfFemale,
+      number_of_died: numberOfDied,
       dateOfBirth: DateFormat('yyyy-MM-dd').format(selectedDate),
     );
 
@@ -133,12 +128,12 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
     setState(() {
       selectedAnimalTypeName = null;
       selectedBreedName = null;
-      selectedGender = null;
-      selectedWeightCategoryName = null;
       selectedAnimalTypeId = null;
       selectedBreedId = null;
-      selectedWeightCategoryId = null;
-      quantityController.clear();
+      weightController.clear();
+      numberOfMaleController.clear();
+      numberOfFemaleController.clear();
+      numberOfDiedController.clear();
       selectedDate = DateTime.now();
     });
   }
@@ -157,13 +152,20 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text(
-          "Birth record",
-          style: GoogleFonts.lato(fontSize: 20),
-        ),
+        title: Text("Birth record", style: GoogleFonts.lato(fontSize: 20)),
         backgroundColor: Colors.green,
         centerTitle: true,
         elevation: 0,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 12.0),
+            child: Image.asset(
+              'assets/images/smartfarm_2_16x16.png',
+              width: 24,
+              height: 24,
+            ),
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -196,29 +198,24 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
                   }
                 });
               }),
-              _buildDropdown("Gender", genders, selectedGender, (value) {
-                setState(() {
-                  selectedGender = value;
-                });
-              }),
-              _buildDropdown(
-                "Weight categories",
-                weightCategoryNames,
-                selectedWeightCategoryName,
-                (value) {
-                  setState(() {
-                    selectedWeightCategoryName = value;
-                    if (value != null) {
-                      selectedWeightCategoryId = weightCategoryMap[value]!.id;
-                    } else {
-                      selectedWeightCategoryId = null;
-                    }
-                  });
-                },
+              _buildTextField(
+                "Weight",
+                weightController,
+                TextInputType.number,
               ),
               _buildTextField(
-                "Quantity",
-                quantityController,
+                "Number of male",
+                numberOfMaleController,
+                TextInputType.number,
+              ),
+              _buildTextField(
+                "number of female",
+                numberOfFemaleController,
+                TextInputType.number,
+              ),
+              _buildTextField(
+                "Number of died",
+                numberOfDiedController,
                 TextInputType.number,
               ),
               _buildDatePicker(context),

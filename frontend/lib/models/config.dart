@@ -1,23 +1,12 @@
-import 'dart:io';
+import 'config_base.dart';
+import 'config_io.dart' if (dart.library.html) 'config_web.dart';
 
 class AppConfig {
-
-  static String devBaseUrl = Platform.isAndroid ? 'http://10.0.2.2:8000/api':'http://127.0.0.1:8000/api';
-  static const String stagingBaseUrl = 'https://staging-api.example.com/api/';
-  static const String prodBaseUrl = 'https://api.example.com/api/';
+  static final AppConfigBase _config = AppConfigImpl();
   
-  // Set this based on your build environment
-  static const String environment = 'dev'; // 'dev', 'staging', or 'prod'
-  
-  static String get baseUrl {
-    switch (environment) {
-      case 'prod':
-        return prodBaseUrl;
-      case 'staging':
-        return stagingBaseUrl;
-      case 'dev':
-      default:
-        return devBaseUrl;
-    }
-  }
+  static String get devBaseUrl => _config.devBaseUrl;
+  static String get stagingBaseUrl => _config.stagingBaseUrl;
+  static String get prodBaseUrl => _config.prodBaseUrl;
+  static String get environment => _config.environment;
+  static String get baseUrl => _config.baseUrl;
 }

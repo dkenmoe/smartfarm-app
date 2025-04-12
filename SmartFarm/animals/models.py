@@ -70,9 +70,10 @@ class AnimalGroup(models.Model):
 class BirthRecord(models.Model):
     animal_type = models.ForeignKey(AnimalType, on_delete=models.CASCADE, related_name="birth_records")
     breed = models.ForeignKey(AnimalBreed, on_delete=models.CASCADE, related_name="birth_records")
-    gender = models.CharField(max_length=10, choices=[("Male", "Male"), ("Female", "Female")])
-    weight_category = models.ForeignKey(WeightCategory, on_delete=models.CASCADE, related_name="birth_records")
-    quantity = models.PositiveIntegerField()
+    weight = models.FloatField(null=True, blank=True)
+    number_of_male = models.PositiveIntegerField(default=0)
+    number_of_female = models.PositiveIntegerField(default=0)
+    number_of_died = models.PositiveIntegerField(default=0)
     date_of_birth = models.DateField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
@@ -80,13 +81,16 @@ class BirthRecord(models.Model):
         super().clean()
         if self.breed.animal_type != self.animal_type:
             raise ValidationError("The selected breed does not belong to the specified animal type.")
+        
+        # if self.number_of_male + self.number_of_female + self.number_of_died == 0:
+        #     raise ValidationError("The number of birth must be greather than 0");
 
     def save(self, *args, **kwargs):
         self.clean()  # Call clean() before saving
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.quantity} {self.animal_type} ({self.breed}) born on {self.date_of_birth}"
+        return f"{self.number_of_male + self.number_of_female} {self.animal_type} ({self.breed}) born on {self.date_of_birth}"
 
 class HealthRecord(models.Model):
     """Tracks the health status of animals"""
@@ -135,21 +139,18 @@ class AnimalPrice(models.Model):
 class AnimalInventory(models.Model):
     animal_type = models.ForeignKey(AnimalType, on_delete=models.CASCADE, related_name="inventories")
     breed = models.ForeignKey(AnimalBreed, on_delete=models.CASCADE, related_name="inventories")
-    gender = models.CharField(max_length=10, choices=[("Male", "Male"), ("Female", "Female")])
-    weight_category = models.ForeignKey(WeightCategory, on_delete=models.CASCADE, related_name="inventories")
     quantity = models.PositiveIntegerField(default=0)  # Total count of animals in this category
 
     class Meta:
-        unique_together = ('animal_type', 'breed', 'gender', 'weight_category') 
+        unique_together = ('animal_type', 'breed', 'quantity') 
         
     def __str__(self):
-        return f"{self.animal_type.name} - {self.breed.name} - {self.gender} - {self.weight_category}: {self.quantity}"
+        return f"{self.animal_type.name} - {self.breed.name} - {self.breed}: {self.quantity}"
 
 class DiedRecord(models.Model):
     animal_type = models.ForeignKey(AnimalType, on_delete=models.CASCADE, related_name="died_records")
     breed = models.ForeignKey(AnimalBreed, on_delete=models.CASCADE, related_name="died_records")
-    gender = models.CharField(max_length=10, choices=[("Male", "Male"), ("Female", "Female")])
-    weight_category = models.ForeignKey(WeightCategory, on_delete=models.CASCADE, related_name="died_records")
+    weight = models.FloatField()
     quantity = models.PositiveIntegerField()
     date_of_death = models.DateField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
