@@ -33,10 +33,9 @@ class BirthRecordSerializer(serializers.ModelSerializer):
     
     animal_type_name = serializers.CharField(source='animal_type.name', read_only=True)
     breed_name = serializers.CharField(source='breed.name', read_only=True)
-    quantity = serializers.SerializerMethodField()
     class Meta:
         model = BirthRecord
-        fields = ['id', 'animal_type', 'animal_type_name', 'breed', 'breed_name', 'weight', 'quantity', 'date_of_birth', 'created_by']
+        fields = ['id', 'animal_type', 'animal_type_name', 'breed', 'breed_name', 'weight', 'number_of_male', 'number_of_female', 'number_of_died', 'date_of_birth', 'created_by']
     
     def get_quantity(self, obj):
         return f"{obj.number_of_male + obj.number_of_female} kg"

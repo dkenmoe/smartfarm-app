@@ -63,8 +63,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     
     # For handling image uploads
-    # 'sorl.thumbnail',
-    
+    # 'sorl.thumbnail',    
     'corsheaders',
 ]
 
@@ -81,7 +80,7 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',  # Require authentication by default
-    ),
+    )
 }
 
 # JWT Configuration
