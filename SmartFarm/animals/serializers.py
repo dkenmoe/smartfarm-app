@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import (
-    AnimalInventory, AnimalType, AnimalBreed, AnimalGroup, WeightCategory,
+    AcquisitionRecord, AnimalInventory, AnimalType, AnimalBreed, AnimalGroup, WeightCategory,
     BirthRecord, HealthRecord, FeedingRecord
 )
 
@@ -38,7 +38,26 @@ class BirthRecordSerializer(serializers.ModelSerializer):
         fields = ['id', 'animal_type', 'animal_type_name', 'breed', 'breed_name', 'weight', 'number_of_male', 'number_of_female', 'number_of_died', 'date_of_birth', 'created_by']
     
     def get_quantity(self, obj):
-        return f"{obj.number_of_male + obj.number_of_female} kg"
+        return f"{obj.number_of_male + obj.number_of_female}"
+    
+    def validate(self, data):
+        animal_type = data.get('animal_type')
+        breed = data.get('breed')
+
+        if breed and animal_type and breed.animal_type != animal_type:
+            raise serializers.ValidationError("The selected breed does not belong to the specified animal type.")
+
+        return data
+    
+class AcquisitionRecordSerializer(serializers.ModelSerializer):
+    animal_type = serializers.PrimaryKeyRelatedField(queryset=AnimalType.objects.all())
+    breed = serializers.PrimaryKeyRelatedField(queryset=AnimalBreed.objects.all())
+    
+    animal_type_name = serializers.CharField(source='animal_type.name', read_only=True)
+    breed_name = serializers.CharField(source='breed.name', read_only=True)
+    class Meta:
+        model = AcquisitionRecord
+        fields = ['id', 'animal_type', 'animal_type_name', 'breed', 'breed_name', 'gender', 'quantity', 'weight','date_of_acquisition', 'created_by']
     
     def validate(self, data):
         animal_type = data.get('animal_type')
@@ -71,4 +90,4 @@ class AnimalInventorySerializer(serializers.ModelSerializer):
         fields = ['id', 'animal_type', 'animal_type_name', 'breed', 'breed_name', 'quantity']
     
     def get_quantity(self, obj):
-         return f"{obj.number_of_male + obj.number_of_female} kg"
+         return f"{obj.number_of_male + obj.number_of_female}"

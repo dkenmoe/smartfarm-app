@@ -5,7 +5,7 @@ from .models import (
     BirthRecord, HealthRecord, FeedingRecord
 )
 from .serializers import (
-    AnimalInventorySerializer, AnimalTypeSerializer, AnimalBreedSerializer, AnimalGroupSerializer, WeightCategorySerializer,
+    AcquisitionRecordSerializer, AnimalInventorySerializer, AnimalTypeSerializer, AnimalBreedSerializer, AnimalGroupSerializer, WeightCategorySerializer,
     BirthRecordSerializer, HealthRecordSerializer, FeedingRecordSerializer
 )
 from users.permissions import IsAuthenticatedAndHasRole
@@ -56,6 +56,11 @@ class WeightCategoryViewSet(viewsets.ModelViewSet):
 class BirthRecordViewSet(viewsets.ModelViewSet):
     queryset = BirthRecord.objects.all()
     serializer_class = BirthRecordSerializer
+    permission_classes = [IsAuthenticated]
+
+class AcquisitionRecordViewSet(viewsets.ModelViewSet):
+    queryset = BirthRecord.objects.all()
+    serializer_class = AcquisitionRecordSerializer
     permission_classes = [IsAuthenticated]
 
 class AnimalInventoryViewSet(viewsets.ModelViewSet):

@@ -82,8 +82,8 @@ class BirthRecord(models.Model):
         if self.breed.animal_type != self.animal_type:
             raise ValidationError("The selected breed does not belong to the specified animal type.")
         
-        # if self.number_of_male + self.number_of_female + self.number_of_died == 0:
-        #     raise ValidationError("The number of birth must be greather than 0");
+        if self.number_of_male + self.number_of_female + self.number_of_died == 0:
+            raise ValidationError("The number of birth must be greather than 0")
 
     def save(self, *args, **kwargs):
         self.clean()  # Call clean() before saving
@@ -91,6 +91,26 @@ class BirthRecord(models.Model):
 
     def __str__(self):
         return f"{self.number_of_male + self.number_of_female} {self.animal_type} ({self.breed}) born on {self.date_of_birth}"
+
+class AcquisitionRecord(models.Model):
+    animal_type = models.ForeignKey(AnimalType, on_delete=models.CASCADE, related_name="acquisition_records")
+    breed = models.ForeignKey(AnimalBreed, on_delete=models.CASCADE, related_name="acquisition_records")
+    quantity = models.IntegerField()
+    weight = models.FloatField(null=True, blank=True)
+    gender = models.CharField(max_length=10, choices=[("Male", "Male"), ("Female", "Female")])
+    date_of_acquisition = models.DateField(auto_now_add=True)
+    created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    
+    def clean(self):
+        super().clean()
+        if self.breed.animal_type != self.animal_type:
+            raise ValidationError("The selected breed does not belong to the specified animal type.")
+        
+        if self.quantity == 0:
+            raise ValidationError("The quantity must be greather than 0")
+    
+    def __str__(self):
+        return f"{self.animal_type} ({self.breed}) acquisit on {self.date_of_acquisition}"
 
 class HealthRecord(models.Model):
     """Tracks the health status of animals"""
