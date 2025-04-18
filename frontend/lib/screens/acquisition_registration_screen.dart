@@ -51,7 +51,10 @@ class _AcquisitionRegistrationScreenState
       });
     } catch (e) {
       RegistrationWidgets.showSnackbar(
-          context, "Error loading animal types.", Colors.red);
+        context,
+        "Error loading animal types.",
+        Colors.red,
+      );
     }
   }
 
@@ -59,7 +62,7 @@ class _AcquisitionRegistrationScreenState
     if (selectedAnimalTypeId == null) return;
     try {
       List<AnimalBreed> breedList = await ApiService.fetchBreeds(
-        selectedAnimalTypeId!,
+        animalTypeId: selectedAnimalTypeId!,
       );
       setState(() {
         breedMap = {for (var breed in breedList) breed.name: breed};
@@ -69,7 +72,10 @@ class _AcquisitionRegistrationScreenState
       });
     } catch (e) {
       RegistrationWidgets.showSnackbar(
-          context, "Error loading breeds.", Colors.red);
+        context,
+        "Error loading breeds.",
+        Colors.red,
+      );
     }
   }
 
@@ -78,28 +84,40 @@ class _AcquisitionRegistrationScreenState
         selectedBreedId == null ||
         selectedGender == null) {
       RegistrationWidgets.showSnackbar(
-          context, "Please fill in all fields.", Colors.orange);
+        context,
+        "Please fill in all fields.",
+        Colors.orange,
+      );
       return;
     }
 
     int quantity = int.tryParse(quantityController.text) ?? 0;
     if (quantity <= 0) {
       RegistrationWidgets.showSnackbar(
-          context, "The quantity must be greater than zero.", Colors.orange);
+        context,
+        "The quantity must be greater than zero.",
+        Colors.orange,
+      );
       return;
     }
 
     double weight = double.tryParse(weightController.text) ?? 0;
     if (weight <= 0) {
       RegistrationWidgets.showSnackbar(
-          context, "The weight must be greater than zero.", Colors.orange);
+        context,
+        "The weight must be greater than zero.",
+        Colors.orange,
+      );
       return;
     }
 
-     double unitPreis = double.tryParse(unitPreisController.text) ?? 0;
+    double unitPreis = double.tryParse(unitPreisController.text) ?? 0;
     if (unitPreis <= 0) {
       RegistrationWidgets.showSnackbar(
-          context, "The unit preis must be greater than zero.", Colors.orange);
+        context,
+        "The unit preis must be greater than zero.",
+        Colors.orange,
+      );
       return;
     }
 
@@ -117,15 +135,24 @@ class _AcquisitionRegistrationScreenState
       bool success = await ApiService.registerAcquisition(acquisitionRecord);
       if (success) {
         RegistrationWidgets.showSnackbar(
-            context, "Acquisition successfully registered!", Colors.green);
+          context,
+          "Acquisition successfully registered!",
+          Colors.green,
+        );
         _resetForm();
       } else {
         RegistrationWidgets.showSnackbar(
-            context, "Error while saving.", Colors.red);
+          context,
+          "Error while saving.",
+          Colors.red,
+        );
       }
     } catch (e) {
       RegistrationWidgets.showSnackbar(
-          context, "Exception: ${e.toString()}", Colors.red);
+        context,
+        "Exception: ${e.toString()}",
+        Colors.red,
+      );
     }
   }
 
@@ -147,7 +174,10 @@ class _AcquisitionRegistrationScreenState
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text("Acquisition record", style: GoogleFonts.lato(fontSize: 20)),
+        title: Text(
+          "Acquisition record",
+          style: GoogleFonts.lato(fontSize: 20),
+        ),
         backgroundColor: Colors.green,
         centerTitle: true,
         elevation: 0,
@@ -208,7 +238,7 @@ class _AcquisitionRegistrationScreenState
                 weightController,
                 TextInputType.numberWithOptions(decimal: true),
               ),
-               RegistrationWidgets.buildTextField(
+              RegistrationWidgets.buildTextField(
                 "Unit preis",
                 unitPreisController,
                 TextInputType.numberWithOptions(decimal: true),

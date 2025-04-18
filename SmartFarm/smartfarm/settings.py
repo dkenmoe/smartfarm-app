@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     # Packages tiers (ex: DRF, JWT)
     'rest_framework',
     'rest_framework_simplejwt',
+    'imagekit',
     
     # For handling image uploads
     # 'sorl.thumbnail',    

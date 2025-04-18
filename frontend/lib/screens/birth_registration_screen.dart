@@ -19,7 +19,8 @@ class BirthRegistrationScreen extends StatefulWidget {
 class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
   final TextEditingController weightController = TextEditingController();
   final TextEditingController numberOfMaleController = TextEditingController();
-  final TextEditingController numberOfFemaleController = TextEditingController();
+  final TextEditingController numberOfFemaleController =
+      TextEditingController();
   final TextEditingController numberOfDiedController = TextEditingController();
   DateTime selectedDate = DateTime.now();
 
@@ -50,7 +51,10 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
       });
     } catch (e) {
       RegistrationWidgets.showSnackbar(
-          context, "Error loading animal types.", Colors.red);
+        context,
+        "Error loading animal types.",
+        Colors.red,
+      );
     }
   }
 
@@ -58,7 +62,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
     if (selectedAnimalTypeId == null) return;
     try {
       List<AnimalBreed> breedList = await ApiService.fetchBreeds(
-        selectedAnimalTypeId!,
+        animalTypeId: selectedAnimalTypeId!,
       );
       setState(() {
         breedMap = {for (var breed in breedList) breed.name: breed};
@@ -68,49 +72,70 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
       });
     } catch (e) {
       RegistrationWidgets.showSnackbar(
-          context, "Error loading breeds.", Colors.red);
+        context,
+        "Error loading breeds.",
+        Colors.red,
+      );
     }
   }
 
   Future<void> _registerBirth() async {
     if (selectedAnimalTypeId == null || selectedBreedId == null) {
       RegistrationWidgets.showSnackbar(
-          context, "Please fill in all fields.", Colors.orange);
+        context,
+        "Please fill in all fields.",
+        Colors.orange,
+      );
       return;
     }
 
     double weight = double.tryParse(weightController.text) ?? 0;
     if (weight <= 0) {
       RegistrationWidgets.showSnackbar(
-          context, "The weight must be greater than zero.", Colors.orange);
+        context,
+        "The weight must be greater than zero.",
+        Colors.orange,
+      );
       return;
     }
 
     int numberOfMale = int.tryParse(numberOfMaleController.text) ?? 0;
     if (numberOfMale < 0) {
       RegistrationWidgets.showSnackbar(
-          context, "The number of male must be greater or equal to zero.", Colors.orange);
+        context,
+        "The number of male must be greater or equal to zero.",
+        Colors.orange,
+      );
       return;
     }
 
     int numberOfFemale = int.tryParse(numberOfFemaleController.text) ?? 0;
     if (numberOfFemale < 0) {
       RegistrationWidgets.showSnackbar(
-          context, "The number of female must be greater or equal to zero.", Colors.orange);
+        context,
+        "The number of female must be greater or equal to zero.",
+        Colors.orange,
+      );
       return;
     }
 
     int numberOfDied = int.tryParse(numberOfDiedController.text) ?? 0;
     if (numberOfDied < 0) {
       RegistrationWidgets.showSnackbar(
-          context, "The number of died must be greater or equal to zero.", Colors.orange);
+        context,
+        "The number of died must be greater or equal to zero.",
+        Colors.orange,
+      );
       return;
     }
 
     // Additional validation to ensure total number is greater than 0
     if (numberOfMale + numberOfFemale + numberOfDied == 0) {
       RegistrationWidgets.showSnackbar(
-          context, "The total number of births must be greater than zero.", Colors.orange);
+        context,
+        "The total number of births must be greater than zero.",
+        Colors.orange,
+      );
       return;
     }
 
@@ -128,15 +153,24 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
       bool success = await ApiService.registerBirth(birthRecord);
       if (success) {
         RegistrationWidgets.showSnackbar(
-            context, "Birth successfully registered!", Colors.green);
+          context,
+          "Birth successfully registered!",
+          Colors.green,
+        );
         _resetForm();
       } else {
         RegistrationWidgets.showSnackbar(
-            context, "Error while saving.", Colors.red);
+          context,
+          "Error while saving.",
+          Colors.red,
+        );
       }
     } catch (e) {
       RegistrationWidgets.showSnackbar(
-          context, "Exception: ${e.toString()}", Colors.red);
+        context,
+        "Exception: ${e.toString()}",
+        Colors.red,
+      );
     }
   }
 

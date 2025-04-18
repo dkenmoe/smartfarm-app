@@ -28,20 +28,21 @@ class AnimalBreedViewSet(viewsets.ModelViewSet):
     serializer_class = AnimalBreedSerializer
     permission_classes = [IsAuthenticated]
     
-    def get_queryset(self):
-        """
-        Custom queryset that filters breeds by animal_type if that parameter exists
-        """
+    def get_queryset(self):        
         queryset = super().get_queryset()  # Start with the class-level queryset
-                
-        # Get animal_type from query parameters
+                      
         animal_type_id = self.request.query_params.get('animal_type')
-        
-        # Apply filter if animal_type was provided
         if animal_type_id:
             queryset = queryset.filter(animal_type_id=animal_type_id)
+        
+        name_query = self.request.query_params.get('name')
+        if name_query:
+            queryset = queryset.filter(name__icontains=name_query)
             
-        return queryset
+        return queryset.select_related('animal_type', 'created_by').order_by('animal_type__name', 'name')
+
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user)
 
 class AnimalGroupViewSet(viewsets.ModelViewSet):
     queryset = AnimalGroup.objects.all()

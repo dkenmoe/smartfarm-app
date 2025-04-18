@@ -11,10 +11,25 @@ class AnimalTypeSerializer(serializers.ModelSerializer):
         read_only_fields = ['created_by']
 
 class AnimalBreedSerializer(serializers.ModelSerializer):
+    animal_type_name = serializers.CharField(source='animal_type.name', read_only=True)
+    image = serializers.ImageField()
+    thumbnail = serializers.ImageField()
     class Meta:
         model = AnimalBreed
-        fields = ['id', 'name', 'animal_type', 'created_by']
+        fields = [
+            'id', 
+            'name', 
+            'description', 
+            'animal_type',  # The ID for write operations
+            'animal_type_name',  # The name for display
+            'image',
+            'thumbnail',
+            'created_by'
+        ]
         read_only_fields = ['created_by']
+    def create(self, validated_data):       
+        validated_data['created_by'] = self.context['request'].user
+        return super().create(validated_data)
 
 class AnimalGroupSerializer(serializers.ModelSerializer):
     class Meta:

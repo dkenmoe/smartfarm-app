@@ -1,4 +1,5 @@
 import 'package:firstapp/screens/acquisition_registration_screen.dart';
+import 'package:firstapp/screens/animal_breeds_screen.dart';
 import 'package:firstapp/screens/died_registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/screens/animal_inventory_screen.dart';
@@ -121,6 +122,19 @@ class HomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => BirthRecordsScreen()),
+                    );
+                  },
+                ),
+
+                ListTile(
+                  leading: Icon(Icons.pets, color: Colors.green),
+                  title: const Text("Animal breeds"),
+                  contentPadding: EdgeInsets.only(left: 30),
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AnimalBreedsScreen()),
                     );
                   },
                 ),

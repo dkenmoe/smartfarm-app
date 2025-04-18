@@ -97,25 +97,29 @@ class ApiService {
     }
   }
 
-  static Future<List<AnimalBreed>> fetchBreeds(int animalTypeId) async {
-    try {
-      final headers = await _getAuthHeaders();
-      final uri = Uri.parse(
-        '$_baseUrl$_breedsEndpoint',
-      ).replace(queryParameters: {'animal_type': animalTypeId.toString()});
-      final response = await _client.get(uri, headers: headers);
-
-      if (response.statusCode == 200) {
-        return (json.decode(response.body) as List)
-            .map((e) => AnimalBreed.fromJson(e))
-            .toList();
-      }
-      throw _createException("Failed to load races", response);
-    } catch (e) {
-      _logger.error('Exception in fetchBreeds: $e');
-      rethrow;
+static Future<List<AnimalBreed>> fetchBreeds({int? animalTypeId}) async {
+  try {
+    final headers = await _getAuthHeaders();
+    final queryParams = <String, String>{};
+    if (animalTypeId != null) {
+      queryParams['animal_type'] = animalTypeId.toString();
     }
+    final uri = Uri.parse(
+      '$_baseUrl$_breedsEndpoint',
+    ).replace(queryParameters: queryParams.isNotEmpty ? queryParams : null);
+    final response = await _client.get(uri, headers: headers);
+
+    if (response.statusCode == 200) {
+      return (json.decode(response.body) as List)
+          .map((e) => AnimalBreed.fromJson(e))
+          .toList();
+    }
+    throw _createException("Failed to load races", response);
+  } catch (e) {
+    _logger.error('Exception in fetchBreeds: $e');
+    rethrow;
   }
+}
 
   Future<List<AnimalBreed>> fetchBreedsByAnimalType(int animalTypeId) async {
     try {

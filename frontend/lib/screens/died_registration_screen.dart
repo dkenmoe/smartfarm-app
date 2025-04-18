@@ -57,7 +57,7 @@ class _DiedRegistrationScreenState extends State<DiedRegistrationScreen> {
     if (selectedAnimalTypeId == null) return;
     try {
       List<AnimalBreed> breedList = await ApiService.fetchBreeds(
-        selectedAnimalTypeId!,
+        animalTypeId: selectedAnimalTypeId!,
       );
       setState(() {
         breedMap = {for (var breed in breedList) breed.name: breed};

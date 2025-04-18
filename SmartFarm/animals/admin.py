@@ -9,7 +9,7 @@ class AnimalTypeAdmin(admin.ModelAdmin):
 
 @admin.register(AnimalBreed)
 class AnimalBreedAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name', 'animal_type', 'created_by')
+    list_display = ('id', 'name', 'animal_type', 'created_by', 'image')
     search_fields = ('name','animal_type')
     list_filter = ('created_by',)
 

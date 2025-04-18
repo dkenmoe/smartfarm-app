@@ -1,12 +1,16 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
 
 User = get_user_model()
 
 class AnimalType(models.Model):
     """Defines the type of animals (e.g., Pigs, Chickens)"""
     name = models.CharField(max_length=50, unique=True)
+    description = models.TextField(blank=True, null=True)  # Optional description field
+    image = models.ImageField(upload_to='animal_types/', null=True, blank=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     
     def __str__(self):
@@ -16,6 +20,16 @@ class AnimalBreed(models.Model):
     """Defines different breeds for each animal type (e.g., Large White, Landrace)"""
     animal_type = models.ForeignKey(AnimalType, on_delete=models.CASCADE, related_name="breeds")
     name = models.CharField(max_length=50)
+    description = models.TextField(blank=True, null=True)  # Optional description field
+    image = models.ImageField(upload_to='images/animal_breeds/', null=True, blank=True)
+    
+    thumbnail = ImageSpecField(
+        source='image',
+        processors=[ResizeToFill(300, 300)],
+        format='JPEG',
+        options={'quality': 85}
+    )
+    
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     
     def __str__(self):
