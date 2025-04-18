@@ -1,3 +1,5 @@
+import 'package:firstapp/screens/acquisition_registration_screen.dart';
+import 'package:firstapp/screens/died_registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/screens/animal_inventory_screen.dart';
 import 'package:firstapp/screens/birth_registration_screen.dart';
@@ -63,6 +65,34 @@ class HomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => BirthRegistrationScreen()),
+                    );
+                  },
+                ),
+
+                // Register acquisition
+                ListTile(
+                  leading: Icon(Icons.add_circle_outline, color: Colors.green),
+                  title: const Text("Register a acquisition"),
+                  contentPadding: EdgeInsets.only(left: 30),
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AcquisitionRegistrationScreen()),
+                    );
+                  },
+                ),
+
+                // Register died
+                ListTile(
+                  leading: Icon(Icons.add_circle_outline, color: Colors.green),
+                  title: const Text("Register a died"),
+                  contentPadding: EdgeInsets.only(left: 30),
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DiedRegistrationScreen()),
                     );
                   },
                 ),

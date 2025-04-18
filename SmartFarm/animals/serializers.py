@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import (
-    AcquisitionRecord, AnimalInventory, AnimalType, AnimalBreed, AnimalGroup, WeightCategory,
+    AcquisitionRecord, AnimalInventory, AnimalType, AnimalBreed, AnimalGroup, DiedRecord, WeightCategory,
     BirthRecord, HealthRecord, FeedingRecord
 )
 
@@ -48,6 +48,25 @@ class BirthRecordSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("The selected breed does not belong to the specified animal type.")
 
         return data
+
+class DiedRecordSerializer(serializers.ModelSerializer):
+    animal_type = serializers.PrimaryKeyRelatedField(queryset=AnimalType.objects.all())
+    breed = serializers.PrimaryKeyRelatedField(queryset=AnimalBreed.objects.all())
+    
+    animal_type_name = serializers.CharField(source='animal_type.name', read_only=True)
+    breed_name = serializers.CharField(source='breed.name', read_only=True)
+    class Meta:
+        model = DiedRecord
+        fields = ['id', 'animal_type', 'animal_type_name', 'breed', 'breed_name', 'quantity', 'weight','created_by']
+    
+    def validate(self, data):
+        animal_type = data.get('animal_type')
+        breed = data.get('breed')
+
+        if breed and animal_type and breed.animal_type != animal_type:
+            raise serializers.ValidationError("The selected breed does not belong to the specified animal type.")
+
+        return data
     
 class AcquisitionRecordSerializer(serializers.ModelSerializer):
     animal_type = serializers.PrimaryKeyRelatedField(queryset=AnimalType.objects.all())
@@ -57,7 +76,7 @@ class AcquisitionRecordSerializer(serializers.ModelSerializer):
     breed_name = serializers.CharField(source='breed.name', read_only=True)
     class Meta:
         model = AcquisitionRecord
-        fields = ['id', 'animal_type', 'animal_type_name', 'breed', 'breed_name', 'gender', 'quantity', 'weight','date_of_acquisition', 'created_by']
+        fields = ['id', 'animal_type', 'animal_type_name', 'breed', 'breed_name', 'gender', 'quantity', 'weight','unit_preis', 'date_of_acquisition', 'created_by']
     
     def validate(self, data):
         animal_type = data.get('animal_type')

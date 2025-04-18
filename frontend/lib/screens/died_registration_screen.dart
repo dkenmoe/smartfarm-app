@@ -1,26 +1,22 @@
-// screens/birth_registration_screen.dart
 import 'package:firstapp/widgets/registration_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../models/animal_breed.dart';
 import '../models/animal_type.dart';
-import '../models/birth_record.dart';
+import '../models/died_record.dart';
 import '../services/api_service.dart';
 
-class BirthRegistrationScreen extends StatefulWidget {
-  const BirthRegistrationScreen({super.key});
+class DiedRegistrationScreen extends StatefulWidget {
+  const DiedRegistrationScreen({super.key});
 
   @override
-  _BirthRegistrationScreenState createState() =>
-      _BirthRegistrationScreenState();
+  _DiedRegistrationScreenState createState() => _DiedRegistrationScreenState();
 }
 
-class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
+class _DiedRegistrationScreenState extends State<DiedRegistrationScreen> {
   final TextEditingController weightController = TextEditingController();
-  final TextEditingController numberOfMaleController = TextEditingController();
-  final TextEditingController numberOfFemaleController = TextEditingController();
-  final TextEditingController numberOfDiedController = TextEditingController();
+  final TextEditingController quantityController = TextEditingController();
   DateTime selectedDate = DateTime.now();
 
   int? selectedAnimalTypeId;
@@ -50,7 +46,10 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
       });
     } catch (e) {
       RegistrationWidgets.showSnackbar(
-          context, "Error loading animal types.", Colors.red);
+        context,
+        "Error loading animal types.",
+        Colors.red,
+      );
     }
   }
 
@@ -68,75 +67,73 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
       });
     } catch (e) {
       RegistrationWidgets.showSnackbar(
-          context, "Error loading breeds.", Colors.red);
+        context,
+        "Error loading breeds.",
+        Colors.red,
+      );
     }
   }
 
-  Future<void> _registerBirth() async {
+  Future<void> _registerDied() async {
     if (selectedAnimalTypeId == null || selectedBreedId == null) {
       RegistrationWidgets.showSnackbar(
-          context, "Please fill in all fields.", Colors.orange);
+        context,
+        "Please fill in all fields.",
+        Colors.orange,
+      );
+      return;
+    }
+
+    int quantity = int.tryParse(quantityController.text) ?? 0;
+    if (quantity <= 0) {
+      RegistrationWidgets.showSnackbar(
+        context,
+        "The quantity must be greater than zero.",
+        Colors.orange,
+      );
       return;
     }
 
     double weight = double.tryParse(weightController.text) ?? 0;
     if (weight <= 0) {
       RegistrationWidgets.showSnackbar(
-          context, "The weight must be greater than zero.", Colors.orange);
+        context,
+        "The weight must be greater than zero.",
+        Colors.orange,
+      );
       return;
     }
 
-    int numberOfMale = int.tryParse(numberOfMaleController.text) ?? 0;
-    if (numberOfMale < 0) {
-      RegistrationWidgets.showSnackbar(
-          context, "The number of male must be greater or equal to zero.", Colors.orange);
-      return;
-    }
-
-    int numberOfFemale = int.tryParse(numberOfFemaleController.text) ?? 0;
-    if (numberOfFemale < 0) {
-      RegistrationWidgets.showSnackbar(
-          context, "The number of female must be greater or equal to zero.", Colors.orange);
-      return;
-    }
-
-    int numberOfDied = int.tryParse(numberOfDiedController.text) ?? 0;
-    if (numberOfDied < 0) {
-      RegistrationWidgets.showSnackbar(
-          context, "The number of died must be greater or equal to zero.", Colors.orange);
-      return;
-    }
-
-    // Additional validation to ensure total number is greater than 0
-    if (numberOfMale + numberOfFemale + numberOfDied == 0) {
-      RegistrationWidgets.showSnackbar(
-          context, "The total number of births must be greater than zero.", Colors.orange);
-      return;
-    }
-
-    BirthRecord birthRecord = BirthRecord(
+    DiedRecord diedRecord = DiedRecord(
       animalTypeId: selectedAnimalTypeId!,
       breedId: selectedBreedId!,
+      quantity: quantity,
       weight: weight,
-      number_of_male: numberOfMale,
-      number_of_female: numberOfFemale,
-      number_of_died: numberOfDied,
-      dateOfBirth: DateFormat('yyyy-MM-dd').format(selectedDate),
+      dateOfDeath: DateFormat('yyyy-MM-dd').format(selectedDate),
     );
 
     try {
-      bool success = await ApiService.registerBirth(birthRecord);
+      bool success = await ApiService.registerDied(diedRecord);
       if (success) {
         RegistrationWidgets.showSnackbar(
-            context, "Birth successfully registered!", Colors.green);
+          context,
+          "Death record successfully registered!",
+          Colors.green,
+        );
         _resetForm();
       } else {
         RegistrationWidgets.showSnackbar(
-            context, "Error while saving.", Colors.red);
+          context,
+          "Error while saving.",
+          Colors.red,
+        );
       }
     } catch (e) {
       RegistrationWidgets.showSnackbar(
-          context, "Exception: ${e.toString()}", Colors.red);
+        context,
+        "Exception: ${e.toString()}",
+        Colors.red,
+      );
     }
   }
 
@@ -147,9 +144,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
       selectedAnimalTypeId = null;
       selectedBreedId = null;
       weightController.clear();
-      numberOfMaleController.clear();
-      numberOfFemaleController.clear();
-      numberOfDiedController.clear();
+      quantityController.clear();
       selectedDate = DateTime.now();
     });
   }
@@ -159,7 +154,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text("Birth record", style: GoogleFonts.lato(fontSize: 20)),
+        title: Text("Death record", style: GoogleFonts.lato(fontSize: 20)),
         backgroundColor: Colors.green,
         centerTitle: true,
         elevation: 0,
@@ -211,28 +206,18 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
                 },
               ),
               RegistrationWidgets.buildTextField(
+                "Quantity",
+                quantityController,
+                TextInputType.number,
+              ),
+              RegistrationWidgets.buildTextField(
                 "Weight",
                 weightController,
-                TextInputType.number,
-              ),
-              RegistrationWidgets.buildTextField(
-                "Number of male",
-                numberOfMaleController,
-                TextInputType.number,
-              ),
-              RegistrationWidgets.buildTextField(
-                "Number of female",
-                numberOfFemaleController,
-                TextInputType.number,
-              ),
-              RegistrationWidgets.buildTextField(
-                "Number of died",
-                numberOfDiedController,
-                TextInputType.number,
+                TextInputType.numberWithOptions(decimal: true),
               ),
               RegistrationWidgets.buildDatePicker(
                 context,
-                "Birthdate",
+                "Date of death",
                 selectedDate,
                 (date) {
                   setState(() {
@@ -242,7 +227,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _registerBirth,
+                onPressed: _registerDied,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   padding: EdgeInsets.symmetric(vertical: 14, horizontal: 40),

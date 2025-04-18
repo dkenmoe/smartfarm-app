@@ -1,11 +1,11 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from .models import (
-    AnimalInventory, AnimalType, AnimalBreed, AnimalGroup, WeightCategory,
+    AnimalInventory, AnimalType, AnimalBreed, AnimalGroup, DiedRecord, WeightCategory,
     BirthRecord, HealthRecord, FeedingRecord
 )
 from .serializers import (
-    AcquisitionRecordSerializer, AnimalInventorySerializer, AnimalTypeSerializer, AnimalBreedSerializer, AnimalGroupSerializer, WeightCategorySerializer,
+    AcquisitionRecordSerializer, AnimalInventorySerializer, AnimalTypeSerializer, AnimalBreedSerializer, AnimalGroupSerializer, DiedRecordSerializer, WeightCategorySerializer,
     BirthRecordSerializer, HealthRecordSerializer, FeedingRecordSerializer
 )
 from users.permissions import IsAuthenticatedAndHasRole
@@ -61,6 +61,11 @@ class BirthRecordViewSet(viewsets.ModelViewSet):
 class AcquisitionRecordViewSet(viewsets.ModelViewSet):
     queryset = BirthRecord.objects.all()
     serializer_class = AcquisitionRecordSerializer
+    permission_classes = [IsAuthenticated]
+    
+class DiedRecordViewSet(viewsets.ModelViewSet):
+    queryset = DiedRecord.objects.all()
+    serializer_class = DiedRecordSerializer
     permission_classes = [IsAuthenticated]
 
 class AnimalInventoryViewSet(viewsets.ModelViewSet):

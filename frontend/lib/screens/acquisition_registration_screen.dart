@@ -1,26 +1,25 @@
-// screens/birth_registration_screen.dart
 import 'package:firstapp/widgets/registration_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import '../models/animal_breed.dart';
 import '../models/animal_type.dart';
-import '../models/birth_record.dart';
+import '../models/acquisition_record.dart';
 import '../services/api_service.dart';
 
-class BirthRegistrationScreen extends StatefulWidget {
-  const BirthRegistrationScreen({super.key});
+class AcquisitionRegistrationScreen extends StatefulWidget {
+  const AcquisitionRegistrationScreen({super.key});
 
   @override
-  _BirthRegistrationScreenState createState() =>
-      _BirthRegistrationScreenState();
+  _AcquisitionRegistrationScreenState createState() =>
+      _AcquisitionRegistrationScreenState();
 }
 
-class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
+class _AcquisitionRegistrationScreenState
+    extends State<AcquisitionRegistrationScreen> {
   final TextEditingController weightController = TextEditingController();
-  final TextEditingController numberOfMaleController = TextEditingController();
-  final TextEditingController numberOfFemaleController = TextEditingController();
-  final TextEditingController numberOfDiedController = TextEditingController();
+  final TextEditingController quantityController = TextEditingController();
+  final TextEditingController unitPreisController = TextEditingController();
   DateTime selectedDate = DateTime.now();
 
   int? selectedAnimalTypeId;
@@ -31,9 +30,11 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
 
   List<String> animalTypeNames = [];
   List<String> breedNames = [];
+  List<String> genderOptions = ["Male", "Female"];
 
   String? selectedAnimalTypeName;
   String? selectedBreedName;
+  String? selectedGender;
 
   @override
   void initState() {
@@ -72,10 +73,19 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
     }
   }
 
-  Future<void> _registerBirth() async {
-    if (selectedAnimalTypeId == null || selectedBreedId == null) {
+  Future<void> _registerAcquisition() async {
+    if (selectedAnimalTypeId == null ||
+        selectedBreedId == null ||
+        selectedGender == null) {
       RegistrationWidgets.showSnackbar(
           context, "Please fill in all fields.", Colors.orange);
+      return;
+    }
+
+    int quantity = int.tryParse(quantityController.text) ?? 0;
+    if (quantity <= 0) {
+      RegistrationWidgets.showSnackbar(
+          context, "The quantity must be greater than zero.", Colors.orange);
       return;
     }
 
@@ -86,49 +96,28 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
       return;
     }
 
-    int numberOfMale = int.tryParse(numberOfMaleController.text) ?? 0;
-    if (numberOfMale < 0) {
+     double unitPreis = double.tryParse(unitPreisController.text) ?? 0;
+    if (unitPreis <= 0) {
       RegistrationWidgets.showSnackbar(
-          context, "The number of male must be greater or equal to zero.", Colors.orange);
+          context, "The unit preis must be greater than zero.", Colors.orange);
       return;
     }
 
-    int numberOfFemale = int.tryParse(numberOfFemaleController.text) ?? 0;
-    if (numberOfFemale < 0) {
-      RegistrationWidgets.showSnackbar(
-          context, "The number of female must be greater or equal to zero.", Colors.orange);
-      return;
-    }
-
-    int numberOfDied = int.tryParse(numberOfDiedController.text) ?? 0;
-    if (numberOfDied < 0) {
-      RegistrationWidgets.showSnackbar(
-          context, "The number of died must be greater or equal to zero.", Colors.orange);
-      return;
-    }
-
-    // Additional validation to ensure total number is greater than 0
-    if (numberOfMale + numberOfFemale + numberOfDied == 0) {
-      RegistrationWidgets.showSnackbar(
-          context, "The total number of births must be greater than zero.", Colors.orange);
-      return;
-    }
-
-    BirthRecord birthRecord = BirthRecord(
+    AcquisitionRecord acquisitionRecord = AcquisitionRecord(
       animalTypeId: selectedAnimalTypeId!,
       breedId: selectedBreedId!,
+      quantity: quantity,
       weight: weight,
-      number_of_male: numberOfMale,
-      number_of_female: numberOfFemale,
-      number_of_died: numberOfDied,
-      dateOfBirth: DateFormat('yyyy-MM-dd').format(selectedDate),
+      gender: selectedGender!,
+      unitPreis: unitPreis,
+      dateOfAcquisition: DateFormat('yyyy-MM-dd').format(selectedDate),
     );
 
     try {
-      bool success = await ApiService.registerBirth(birthRecord);
+      bool success = await ApiService.registerAcquisition(acquisitionRecord);
       if (success) {
         RegistrationWidgets.showSnackbar(
-            context, "Birth successfully registered!", Colors.green);
+            context, "Acquisition successfully registered!", Colors.green);
         _resetForm();
       } else {
         RegistrationWidgets.showSnackbar(
@@ -144,12 +133,11 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
     setState(() {
       selectedAnimalTypeName = null;
       selectedBreedName = null;
+      selectedGender = null;
       selectedAnimalTypeId = null;
       selectedBreedId = null;
       weightController.clear();
-      numberOfMaleController.clear();
-      numberOfFemaleController.clear();
-      numberOfDiedController.clear();
+      quantityController.clear();
       selectedDate = DateTime.now();
     });
   }
@@ -159,7 +147,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
     return Scaffold(
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
-        title: Text("Birth record", style: GoogleFonts.lato(fontSize: 20)),
+        title: Text("Acquisition record", style: GoogleFonts.lato(fontSize: 20)),
         backgroundColor: Colors.green,
         centerTitle: true,
         elevation: 0,
@@ -211,28 +199,33 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
                 },
               ),
               RegistrationWidgets.buildTextField(
+                "Quantity",
+                quantityController,
+                TextInputType.number,
+              ),
+              RegistrationWidgets.buildTextField(
                 "Weight",
                 weightController,
-                TextInputType.number,
+                TextInputType.numberWithOptions(decimal: true),
               ),
-              RegistrationWidgets.buildTextField(
-                "Number of male",
-                numberOfMaleController,
-                TextInputType.number,
+               RegistrationWidgets.buildTextField(
+                "Unit preis",
+                unitPreisController,
+                TextInputType.numberWithOptions(decimal: true),
               ),
-              RegistrationWidgets.buildTextField(
-                "Number of female",
-                numberOfFemaleController,
-                TextInputType.number,
-              ),
-              RegistrationWidgets.buildTextField(
-                "Number of died",
-                numberOfDiedController,
-                TextInputType.number,
+              RegistrationWidgets.buildDropdown(
+                "Gender",
+                genderOptions,
+                selectedGender,
+                (value) {
+                  setState(() {
+                    selectedGender = value;
+                  });
+                },
               ),
               RegistrationWidgets.buildDatePicker(
                 context,
-                "Birthdate",
+                "Date of acquisition",
                 selectedDate,
                 (date) {
                   setState(() {
@@ -242,7 +235,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: _registerBirth,
+                onPressed: _registerAcquisition,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                   padding: EdgeInsets.symmetric(vertical: 14, horizontal: 40),

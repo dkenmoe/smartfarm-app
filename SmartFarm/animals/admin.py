@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import AnimalType, AnimalBreed, WeightCategory, AnimalPrice, AnimalGroup, BirthRecord, AnimalInventory, DiedRecord
+from .models import AcquisitionRecord, AnimalType, AnimalBreed, WeightCategory, AnimalPrice, AnimalGroup, BirthRecord, AnimalInventory, DiedRecord
 
 @admin.register(AnimalType)
 class AnimalTypeAdmin(admin.ModelAdmin):
@@ -42,6 +42,12 @@ class AnimalInventoryAdmin(admin.ModelAdmin):
     list_display = ('id', 'animal_type', 'breed', 'quantity')
     search_fields = ('animal_type', 'breed', 'quantity',)
     list_filter = ('animal_type', 'breed', 'quantity', )
+
+@admin.register(AcquisitionRecord)   
+class AcquisitionRecordAdmin(admin.ModelAdmin):
+    list_display = ('id', 'animal_type', 'breed', 'quantity', 'gender', 'unit_preis', 'date_of_acquisition')
+    search_fields = ('animal_type', 'breed', 'quantity', 'gender', 'unit_preis', 'date_of_acquisition')
+    list_filter = ('animal_type', 'breed', 'quantity', 'gender', 'unit_preis', 'date_of_acquisition')
 
 @admin.register(DiedRecord)   
 class DiedRecordAdmin(admin.ModelAdmin):

@@ -49,7 +49,7 @@ class AnimalGroup(models.Model):
     animal_type = models.ForeignKey(AnimalType, on_delete=models.CASCADE, related_name="animal_groups")
     breed = models.ForeignKey(AnimalBreed, on_delete=models.CASCADE, related_name="animal_groups")
     gender = models.CharField(max_length=10, choices=[('male', 'Male'), ('female', 'Female')])
-    quantity = models.IntegerField()
+    quantity = models.PositiveIntegerField()
     birth_date = models.DateField()
     weight = models.FloatField()
     weight_category = models.ForeignKey(WeightCategory, on_delete=models.SET_NULL, null=True, blank=True)
@@ -95,11 +95,16 @@ class BirthRecord(models.Model):
 class AcquisitionRecord(models.Model):
     animal_type = models.ForeignKey(AnimalType, on_delete=models.CASCADE, related_name="acquisition_records")
     breed = models.ForeignKey(AnimalBreed, on_delete=models.CASCADE, related_name="acquisition_records")
-    quantity = models.IntegerField()
+    quantity = models.PositiveIntegerField()
     weight = models.FloatField(null=True, blank=True)
     gender = models.CharField(max_length=10, choices=[("Male", "Male"), ("Female", "Female")])
+    unit_preis = models.DecimalField(max_digits=8, decimal_places=2)
     date_of_acquisition = models.DateField(auto_now_add=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    
+    @property
+    def total_cost(self):
+        return self.unit_preis * self.quantity
     
     def clean(self):
         super().clean()
@@ -108,6 +113,9 @@ class AcquisitionRecord(models.Model):
         
         if self.quantity == 0:
             raise ValidationError("The quantity must be greather than 0")
+        
+        if self.unit_preis <= 0:
+            raise ValidationError("The unit_preis must be greather than 0")
     
     def __str__(self):
         return f"{self.animal_type} ({self.breed}) acquisit on {self.date_of_acquisition}"
