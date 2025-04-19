@@ -29,7 +29,7 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
 
-      // Redesigned Navigation Drawer with expandable modules
+      // Drawer restructuré avec des sous-modules
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -49,7 +49,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             
-            // Production Module (expanded by default)
+            // Module Production
             ExpansionTile(
               initiallyExpanded: true,
               leading: Icon(Icons.agriculture, color: Colors.green),
@@ -58,117 +58,140 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               children: [
-                // Register a birth
-                ListTile(
-                  leading: Icon(Icons.add_circle_outline, color: Colors.green),
-                  title: const Text("Register a birth"),
-                  contentPadding: EdgeInsets.only(left: 30),
-                  onTap: () {
-                    Navigator.pop(context); // Close the drawer
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => BirthRegistrationScreen()),
-                    );
-                  },
-                ),
+                // Sous-module 1: Enregistrements
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: ExpansionTile(
+                    initiallyExpanded: false,
+                    title: const Text("Registration"),
+                    children: [
+                      // Register a birth
+                      ListTile(
+                        leading: Icon(Icons.add_circle_outline, color: Colors.green),
+                        title: const Text("Register a birth"),
+                        contentPadding: EdgeInsets.only(left: 32),
+                        onTap: () {
+                          // Garde une référence au menu avant de naviguer
+                          final NavigatorState nav = Navigator.of(context);
+                          nav.pop(); // Ferme le drawer
+                          nav.push(
+                            MaterialPageRoute(builder: (context) => BirthRegistrationScreen()),
+                          );
+                        },
+                      ),
 
-                // Register acquisition
-                ListTile(
-                  leading: Icon(Icons.add_circle_outline, color: Colors.green),
-                  title: const Text("Register a acquisition"),
-                  contentPadding: EdgeInsets.only(left: 30),
-                  onTap: () {
-                    Navigator.pop(context); // Close the drawer
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AcquisitionRegistrationScreen()),
-                    );
-                  },
-                ),
+                      // Register acquisition
+                      ListTile(
+                        leading: Icon(Icons.add_circle_outline, color: Colors.green),
+                        title: const Text("Register a acquisition"),
+                        contentPadding: EdgeInsets.only(left: 32),
+                        onTap: () {
+                          final NavigatorState nav = Navigator.of(context);
+                          nav.pop(); // Ferme le drawer
+                          nav.push(
+                            MaterialPageRoute(builder: (context) => AcquisitionRegistrationScreen()),
+                          );
+                        },
+                      ),
 
-                // Register died
-                ListTile(
-                  leading: Icon(Icons.add_circle_outline, color: Colors.green),
-                  title: const Text("Register a died"),
-                  contentPadding: EdgeInsets.only(left: 30),
-                  onTap: () {
-                    Navigator.pop(context); // Close the drawer
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DiedRegistrationScreen()),
-                    );
-                  },
+                      // Register died
+                      ListTile(
+                        leading: Icon(Icons.add_circle_outline, color: Colors.green),
+                        title: const Text("Register a died"),
+                        contentPadding: EdgeInsets.only(left: 32),
+                        onTap: () {
+                          final NavigatorState nav = Navigator.of(context);
+                          nav.pop(); // Ferme le drawer
+                          nav.push(
+                            MaterialPageRoute(builder: (context) => DiedRegistrationScreen()),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
                 
-                // Animals inventory
-                ListTile(
-                  leading: Icon(Icons.list_alt, color: Colors.green),
-                  title: const Text("Animals inventory"),
-                  contentPadding: EdgeInsets.only(left: 30),
-                  onTap: () {
-                    Navigator.pop(context); // Close the drawer
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AnimalInventoryScreen()),
-                    );
-                  },
+                // Sous-module 2: Consultation
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: ExpansionTile(
+                    initiallyExpanded: false,
+                    title: const Text("Records"),
+                    children: [
+                      // Animals inventory
+                      ListTile(
+                        leading: Icon(Icons.list_alt, color: Colors.green),
+                        title: const Text("Animals inventory"),
+                        contentPadding: EdgeInsets.only(left: 32),
+                        onTap: () {
+                          final NavigatorState nav = Navigator.of(context);
+                          nav.pop(); // Ferme le drawer
+                          nav.push(
+                            MaterialPageRoute(builder: (context) => AnimalInventoryScreen()),
+                          );
+                        },
+                      ),
+                      
+                      // Birth records
+                      ListTile(
+                        leading: Icon(Icons.baby_changing_station, color: Colors.green),
+                        title: const Text("Birth records"),
+                        contentPadding: EdgeInsets.only(left: 32),
+                        onTap: () {
+                          final NavigatorState nav = Navigator.of(context);
+                          nav.pop(); // Ferme le drawer
+                          nav.push(
+                            MaterialPageRoute(builder: (context) => BirthRecordsScreen()),
+                          );
+                        },
+                      ),
+
+                      // Acquisition records
+                      ListTile(
+                        leading: Icon(Icons.price_check, color: Colors.green),
+                        title: const Text("Acquisition records"),
+                        contentPadding: EdgeInsets.only(left: 32),
+                        onTap: () {
+                          final NavigatorState nav = Navigator.of(context);
+                          nav.pop(); // Ferme le drawer
+                          nav.push(
+                            MaterialPageRoute(builder: (context) => AcquisitionRecordsScreen()),
+                          );
+                        },
+                      ),
+
+                      // Animal breeds
+                      ListTile(
+                        leading: Icon(Icons.pets, color: Colors.green),
+                        title: const Text("Animal breeds"),
+                        contentPadding: EdgeInsets.only(left: 32),
+                        onTap: () {
+                          final NavigatorState nav = Navigator.of(context);
+                          nav.pop(); // Ferme le drawer
+                          nav.push(
+                            MaterialPageRoute(builder: (context) => AnimalBreedsScreen()),
+                          );
+                        },
+                      ),
+
+                      // Died records
+                      ListTile(
+                        leading: Icon(Icons.pets, color: Colors.green),
+                        title: const Text("Died records"),
+                        contentPadding: EdgeInsets.only(left: 32),
+                        onTap: () {
+                          final NavigatorState nav = Navigator.of(context);
+                          nav.pop();
+                          nav.push(
+                            MaterialPageRoute(builder: (context) => DiedRecordsScreen()),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
                 
-                // Birth records (new)
-                ListTile(
-                  leading: Icon(Icons.baby_changing_station, color: Colors.green),
-                  title: const Text("Birth records"),
-                  contentPadding: EdgeInsets.only(left: 30),
-                  onTap: () {
-                    Navigator.pop(context); // Close the drawer
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => BirthRecordsScreen()),
-                    );
-                  },
-                ),
-
-                // Acquisition records
-                ListTile(
-                  leading: Icon(Icons.price_check, color: Colors.green),
-                  title: const Text("Acquisition records"),
-                  contentPadding: EdgeInsets.only(left: 30),
-                  onTap: () {
-                    Navigator.pop(context); // Close the drawer
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AcquisitionRecordsScreen()),
-                    );
-                  },
-                ),
-
-                ListTile(
-                  leading: Icon(Icons.pets, color: Colors.green),
-                  title: const Text("Animal breeds"),
-                  contentPadding: EdgeInsets.only(left: 30),
-                  onTap: () {
-                    Navigator.pop(context); // Close the drawer
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AnimalBreedsScreen()),
-                    );
-                  },
-                ),
-
-                ListTile(
-                  leading: Icon(Icons.pets, color: Colors.green),
-                  title: const Text("Died records"),
-                  contentPadding: EdgeInsets.only(left: 30),
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => DiedRecordsScreen()),
-                    );
-                  },
-                ),
-                
-                // Statistics (to be implemented)
+                // Fonctionnalités à venir
                 ListTile(
                   enabled: false,
                   leading: Icon(Icons.bar_chart, color: Colors.grey),
@@ -176,11 +199,10 @@ class HomeScreen extends StatelessWidget {
                     "Statistics",
                     style: TextStyle(color: Colors.grey),
                   ),
-                  contentPadding: EdgeInsets.only(left: 30),
+                  contentPadding: EdgeInsets.only(left: 16),
                   onTap: null,
                 ),
                 
-                // Health records (to be implemented)
                 ListTile(
                   enabled: false,
                   leading: Icon(Icons.healing, color: Colors.grey),
@@ -188,13 +210,13 @@ class HomeScreen extends StatelessWidget {
                     "Health records",
                     style: TextStyle(color: Colors.grey),
                   ),
-                  contentPadding: EdgeInsets.only(left: 30),
+                  contentPadding: EdgeInsets.only(left: 16),
                   onTap: null,
                 ),
               ],
             ),
             
-            // Finance Module (to be implemented)
+            // Module Finance (à implémenter)
             ExpansionTile(
               enabled: false,
               leading: Icon(Icons.account_balance, color: Colors.grey),
@@ -203,11 +225,11 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.grey),
               ),
               children: [
-                // Placeholder for future implementation
+                // Placeholder pour implémentation future
               ],
             ),
             
-            // Sales Module (to be implemented)
+            // Module Sales (à implémenter)
             ExpansionTile(
               enabled: false,
               leading: Icon(Icons.shopping_cart, color: Colors.grey),
@@ -216,25 +238,24 @@ class HomeScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.grey),
               ),
               children: [
-                // Placeholder for future implementation
+                // Placeholder pour implémentation future
               ],
             ),
             
-            // Divider and other potential menu items
             Divider(),
             ListTile(
               leading: Icon(Icons.settings, color: Colors.green),
               title: const Text("Settings"),
               onTap: () {
-                // Navigate to settings screen (to be implemented)
                 Navigator.pop(context);
+                // Navigation vers l'écran de paramètres (à implémenter)
               },
             ),
           ],
         ),
       ),
 
-      // Main body remains the same
+      // Corps principal inchangé
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Column(
