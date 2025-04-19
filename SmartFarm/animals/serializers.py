@@ -72,7 +72,7 @@ class DiedRecordSerializer(serializers.ModelSerializer):
     breed_name = serializers.CharField(source='breed.name', read_only=True)
     class Meta:
         model = DiedRecord
-        fields = ['id', 'animal_type', 'animal_type_name', 'breed', 'breed_name', 'quantity', 'weight','created_by']
+        fields = ['id', 'animal_type', 'animal_type_name', 'breed', 'breed_name', 'quantity', 'weight','date_of_death','created_by']
     
     def validate(self, data):
         animal_type = data.get('animal_type')
@@ -91,7 +91,7 @@ class AcquisitionRecordSerializer(serializers.ModelSerializer):
     breed_name = serializers.CharField(source='breed.name', read_only=True)
     class Meta:
         model = AcquisitionRecord
-        fields = ['id', 'animal_type', 'animal_type_name', 'breed', 'breed_name', 'gender', 'quantity', 'weight','unit_preis', 'date_of_acquisition', 'created_by']
+        fields = ['id', 'animal_type', 'animal_type_name', 'breed', 'breed_name', 'quantity', 'weight','unit_preis', 'gender', 'date_of_acquisition', 'created_by']
     
     def validate(self, data):
         animal_type = data.get('animal_type')

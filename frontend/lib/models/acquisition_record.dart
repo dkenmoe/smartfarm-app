@@ -37,16 +37,26 @@ class AcquisitionRecord {
     };
   }
 
-   factory AcquisitionRecord.fromJson(Map<String, dynamic> json) {
+  factory AcquisitionRecord.fromJson(Map<String, dynamic> json) {
     return AcquisitionRecord(
       animalTypeId: json['animal_type'],
       animalTypeName: json['animal_type_name'],
       breedId: json['breed'],
       breedName: json['breed_name'],
       quantity: json['quantity'],
-      weight: json['weight'] != null ? json['weight'].toDouble() : null,
+      weight:
+          json['weight'] != null
+              ? (json['weight'] is String
+                  ? double.parse(json['weight'])
+                  : json['weight'].toDouble())
+              : null,
       gender: json['gender'],
-      unitPreis: json['unit_preis'].toDouble(),
+      unitPreis:
+          json['unit_preis'] != null
+              ? (json['unit_preis'] is String
+                  ? double.parse(json['unit_preis'])
+                  : json['unit_preis'].toDouble())
+              : null,
       dateOfAcquisition: json['date_of_acquisition'],
       createdById: json['created_by'],
       createdByName: json['created_by_name'],

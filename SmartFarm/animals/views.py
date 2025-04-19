@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from .models import (
-    AnimalInventory, AnimalType, AnimalBreed, AnimalGroup, DiedRecord, WeightCategory,
+    AcquisitionRecord, AnimalInventory, AnimalType, AnimalBreed, AnimalGroup, DiedRecord, WeightCategory,
     BirthRecord, HealthRecord, FeedingRecord
 )
 from .serializers import (
@@ -60,7 +60,7 @@ class BirthRecordViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
 
 class AcquisitionRecordViewSet(viewsets.ModelViewSet):
-    queryset = BirthRecord.objects.all()
+    queryset = AcquisitionRecord.objects.all()
     serializer_class = AcquisitionRecordSerializer
     permission_classes = [IsAuthenticated]
     

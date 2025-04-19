@@ -39,9 +39,7 @@ class DiedRecord {
       breedName: json['breed_name'],
       weight: json['weight'].toDouble(),
       quantity: json['quantity'],
-      dateOfDeath: json['date_of_death'],
-      createdById: json['created_by'],
-      createdByName: json['created_by_name'],
+      dateOfDeath: json['date_of_death']
     );
   }
 }

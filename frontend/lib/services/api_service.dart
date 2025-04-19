@@ -24,7 +24,8 @@ class ApiService {
   static const String _breedsEndpoint = '/animals/animal-breeds/';
   static const String _birthRecordsEndpoint = '/animals/birth-records/';
   static const String _diedRecordsEndpoint = '/animals/died-records/';
-  static const String _acquisitionRecordsEndpoint = '/animals/acquisition_records/';
+  static const String _acquisitionRecordsEndpoint =
+      '/animals/acquisition_records/';
   static const String _weightCategories = '/animals/weight-categories/';
   static const String _animalInventories = '/animals/animal-inventories/';
   static const String _animalsRecords = '/animals/birth-records/';
@@ -97,29 +98,29 @@ class ApiService {
     }
   }
 
-static Future<List<AnimalBreed>> fetchBreeds({int? animalTypeId}) async {
-  try {
-    final headers = await _getAuthHeaders();
-    final queryParams = <String, String>{};
-    if (animalTypeId != null) {
-      queryParams['animal_type'] = animalTypeId.toString();
-    }
-    final uri = Uri.parse(
-      '$_baseUrl$_breedsEndpoint',
-    ).replace(queryParameters: queryParams.isNotEmpty ? queryParams : null);
-    final response = await _client.get(uri, headers: headers);
+  static Future<List<AnimalBreed>> fetchBreeds({int? animalTypeId}) async {
+    try {
+      final headers = await _getAuthHeaders();
+      final queryParams = <String, String>{};
+      if (animalTypeId != null) {
+        queryParams['animal_type'] = animalTypeId.toString();
+      }
+      final uri = Uri.parse(
+        '$_baseUrl$_breedsEndpoint',
+      ).replace(queryParameters: queryParams.isNotEmpty ? queryParams : null);
+      final response = await _client.get(uri, headers: headers);
 
-    if (response.statusCode == 200) {
-      return (json.decode(response.body) as List)
-          .map((e) => AnimalBreed.fromJson(e))
-          .toList();
+      if (response.statusCode == 200) {
+        return (json.decode(response.body) as List)
+            .map((e) => AnimalBreed.fromJson(e))
+            .toList();
+      }
+      throw _createException("Failed to load races", response);
+    } catch (e) {
+      _logger.error('Exception in fetchBreeds: $e');
+      rethrow;
     }
-    throw _createException("Failed to load races", response);
-  } catch (e) {
-    _logger.error('Exception in fetchBreeds: $e');
-    rethrow;
   }
-}
 
   Future<List<AnimalBreed>> fetchBreedsByAnimalType(int animalTypeId) async {
     try {
@@ -215,6 +216,26 @@ static Future<List<AnimalBreed>> fetchBreeds({int? animalTypeId}) async {
     }
   }
 
+  Future<List<AcquisitionRecord>> fetchAcquisitionRecords() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl$_acquisitionRecordsEndpoint'),
+        headers: await _getAuthHeaders(),
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        return data.map((json) => AcquisitionRecord.fromJson(json)).toList();
+      } else {
+        throw Exception(
+          'Failed to load acquisition records: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception('Error fetching acquisition records: $e');
+    }
+  }
+
   static Future<bool> registerDied(DiedRecord record) async {
     try {
       final headers = await _getAuthHeaders();
@@ -232,6 +253,42 @@ static Future<List<AnimalBreed>> fetchBreeds({int? animalTypeId}) async {
     } catch (e) {
       print('Error registering death: $e');
       return false;
+    }
+  }
+
+  static Future<List<AnimalBreed>> fetchAnimalBreeds() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl$_breedsEndpoint'),
+        headers: await _getAuthHeaders(),
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        return data.map((json) => AnimalBreed.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load animal breeds: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error fetching acquisition records: $e');
+    }
+  }
+
+  static Future<List<DiedRecord>> fetchDiedRecords() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl$_diedRecordsEndpoint'),
+        headers: await _getAuthHeaders(),
+      );
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = json.decode(response.body);
+        return data.map((json) => DiedRecord.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load died records: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error fetching died records: $e');
     }
   }
 

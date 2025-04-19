@@ -1,5 +1,7 @@
+import 'package:firstapp/screens/acquisition_records_screen.dart';
 import 'package:firstapp/screens/acquisition_registration_screen.dart';
 import 'package:firstapp/screens/animal_breeds_screen.dart';
+import 'package:firstapp/screens/died_records_screen.dart';
 import 'package:firstapp/screens/died_registration_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firstapp/screens/animal_inventory_screen.dart';
@@ -126,6 +128,20 @@ class HomeScreen extends StatelessWidget {
                   },
                 ),
 
+                // Acquisition records
+                ListTile(
+                  leading: Icon(Icons.price_check, color: Colors.green),
+                  title: const Text("Acquisition records"),
+                  contentPadding: EdgeInsets.only(left: 30),
+                  onTap: () {
+                    Navigator.pop(context); // Close the drawer
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => AcquisitionRecordsScreen()),
+                    );
+                  },
+                ),
+
                 ListTile(
                   leading: Icon(Icons.pets, color: Colors.green),
                   title: const Text("Animal breeds"),
@@ -135,6 +151,19 @@ class HomeScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(builder: (context) => AnimalBreedsScreen()),
+                    );
+                  },
+                ),
+
+                ListTile(
+                  leading: Icon(Icons.pets, color: Colors.green),
+                  title: const Text("Died records"),
+                  contentPadding: EdgeInsets.only(left: 30),
+                  onTap: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => DiedRecordsScreen()),
                     );
                   },
                 ),
