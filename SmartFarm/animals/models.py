@@ -22,10 +22,11 @@ class AnimalBreed(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)  # Optional description field
     image = models.ImageField(upload_to='images/animal_breeds/', null=True, blank=True)
-    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     thumbnail = ImageSpecField(
         source='image',
-        processors=[ResizeToFill(300, 300)],
+        processors=[ResizeToFill(250, 250)],
         format='JPEG',
         options={'quality': 85}
     )
@@ -89,6 +90,8 @@ class BirthRecord(models.Model):
     number_of_female = models.PositiveIntegerField(default=0)
     number_of_died = models.PositiveIntegerField(default=0)
     date_of_birth = models.DateField(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    notes = models.TextField(blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def clean(self):
@@ -114,6 +117,9 @@ class AcquisitionRecord(models.Model):
     gender = models.CharField(max_length=10, choices=[("Male", "Male"), ("Female", "Female")])
     unit_preis = models.DecimalField(max_digits=8, decimal_places=2)
     date_of_acquisition = models.DateField(auto_now_add=True)
+    vendor = models.CharField(max_length=100, blank=True, null=True)
+    receipt_number = models.CharField(max_length=50, blank=True, null=True)
+    notes = models.TextField(blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     
     @property
@@ -195,4 +201,7 @@ class DiedRecord(models.Model):
     weight = models.FloatField()
     quantity = models.PositiveIntegerField()
     date_of_death = models.DateField(auto_now_add=True)
+    cause = models.CharField(max_length=200, blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    notes = models.TextField(blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

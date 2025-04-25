@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-class RegistrationWidgets {
+class FormWidgets {
   static Widget buildTextField(
     String label,
     TextEditingController controller,
-    TextInputType keyboardType,
-  ) {
+    TextInputType keyboardType, {
+    String? helperText,
+    int maxLines = 1,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
-      child: TextField(
+      child: TextFormField(
         controller: controller,
         keyboardType: keyboardType,
+        maxLines: maxLines,
         decoration: InputDecoration(
           labelText: label,
+          helperText: helperText,
           filled: true,
           fillColor: Colors.white,
           border: OutlineInputBorder(
@@ -37,8 +41,9 @@ class RegistrationWidgets {
     String label,
     List<T> items,
     T? selectedValue,
-    Function(T?) onChanged,
-  ) {
+    Function(T?) onChanged, {
+    String? Function(T)? displayValueFunc,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: DropdownButtonFormField<T>(
@@ -124,6 +129,93 @@ class RegistrationWidgets {
             style: TextStyle(fontSize: 16),
           ),
         ),
+      ),
+    );
+  }
+
+  static Widget buildCheckbox(
+    String label,
+    bool value,
+    Function(bool?) onChanged,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Row(
+        children: [
+          Checkbox(
+            value: value,
+            onChanged: onChanged,
+            activeColor: Colors.green,
+          ),
+          Text(label, style: TextStyle(fontSize: 16)),
+        ],
+      ),
+    );
+  }
+
+  static Widget buildSegmentedControl<T>(
+    String label,
+    Map<T, String> options,
+    T selectedValue,
+    Function(T) onChanged,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Text(
+              label,
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(8.0),
+              border: Border.all(color: Colors.grey.shade300),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Row(
+                children:
+                    options.entries.map((entry) {
+                      bool isSelected = selectedValue == entry.key;
+                      return Expanded(
+                        child: GestureDetector(
+                          onTap: () => onChanged(entry.key),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(vertical: 10),
+                            decoration: BoxDecoration(
+                              color:
+                                  isSelected
+                                      ? Colors.green
+                                      : Colors.transparent,
+                              borderRadius: BorderRadius.circular(6.0),
+                            ),
+                            child: Center(
+                              child: Text(
+                                entry.value,
+                                style: TextStyle(
+                                  color:
+                                      isSelected ? Colors.white : Colors.black,
+                                  fontWeight:
+                                      isSelected
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

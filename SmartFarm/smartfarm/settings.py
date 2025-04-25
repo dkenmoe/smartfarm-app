@@ -56,6 +56,8 @@ INSTALLED_APPS = [
     'sales',
     'animals',
     'reports',
+    'finance',
+    'core',
     'iot',
     
     # Packages tiers (ex: DRF, JWT)
