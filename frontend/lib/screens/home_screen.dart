@@ -1,13 +1,16 @@
-import 'package:firstapp/screens/acquisition_records_screen.dart';
-import 'package:firstapp/screens/acquisition_registration_screen.dart';
-import 'package:firstapp/screens/animal_breeds_screen.dart';
-import 'package:firstapp/screens/animal_inventory_screen.dart';
-import 'package:firstapp/screens/birth_records_screen.dart';
-import 'package:firstapp/screens/birth_registration_screen.dart';
-import 'package:firstapp/screens/died_records_screen.dart';
-import 'package:firstapp/screens/died_registration_screen.dart';
+import 'package:firstapp/screens/acquisition/acquisition_form_screen.dart';
+import 'package:firstapp/screens/acquisition/acquisition_list_screen.dart';
+import 'package:firstapp/screens/animal_breeds_list_screen.dart';
+import 'package:firstapp/screens/animal_inventory_list_screen.dart';
+import 'package:firstapp/screens/birth/birth_form_screen.dart';
+import 'package:firstapp/screens/birth/birth_list_screen.dart';
+import 'package:firstapp/screens/died/died_form_screen.dart';
+import 'package:firstapp/screens/died/died_list_screen.dart';
 import 'package:firstapp/screens/finance/expense_form_screen.dart';
 import 'package:firstapp/screens/finance/expenses_list_screen.dart';
+import 'package:firstapp/services/acquisition_service.dart';
+import 'package:firstapp/services/birth_service.dart';
+import 'package:firstapp/services/died_record_service.dart';
 import 'package:firstapp/services/expense_service.dart';
 import 'package:flutter/material.dart';
 
@@ -76,7 +79,14 @@ class HomeScreen extends StatelessWidget {
                           nav.pop();
                           nav.push(
                             MaterialPageRoute(
-                              builder: (context) => BirthRegistrationScreen(),
+                              builder:
+                                  (context) => BirthFormScreen(
+                                    onSubmit: (birthRecord) async {
+                                      await BirthService.registerBirth(
+                                        birthRecord,
+                                      );
+                                    },
+                                  ),
                             ),
                           );
                         },
@@ -94,7 +104,13 @@ class HomeScreen extends StatelessWidget {
                           nav.push(
                             MaterialPageRoute(
                               builder:
-                                  (context) => AcquisitionRegistrationScreen(),
+                                  (context) => AcquisitionFormScreen(
+                                    onSubmit: (expense) async {
+                                      await AcquisitionService.createAcquisition(
+                                        expense,
+                                      );
+                                    },
+                                  ),
                             ),
                           );
                         },
@@ -111,7 +127,14 @@ class HomeScreen extends StatelessWidget {
                           nav.pop();
                           nav.push(
                             MaterialPageRoute(
-                              builder: (context) => DiedRegistrationScreen(),
+                              builder:
+                                  (context) => DiedFormScreen(
+                                    onSubmit: (diedRecord) async {
+                                      await DiedRecordService.createDiedRecord(
+                                        diedRecord,
+                                      );
+                                    },
+                                  ),
                             ),
                           );
                         },
@@ -126,52 +149,49 @@ class HomeScreen extends StatelessWidget {
                     title: const Text("Records"),
                     children: [
                       ListTile(
-                        leading: Icon(Icons.list_alt, color: Colors.green),
-                        title: const Text("Animals inventory"),
+                        leading: Icon(Icons.list, color: Colors.green),
+                        title: const Text("Animals Inventory"),
                         contentPadding: EdgeInsets.only(left: 32),
                         onTap: () {
                           final nav = Navigator.of(context);
                           nav.pop();
                           nav.push(
                             MaterialPageRoute(
-                              builder: (context) => AnimalInventoryScreen(),
+                              builder: (context) => AnimalInventoryListScreen(),
                             ),
                           );
                         },
                       ),
                       ListTile(
-                        leading: Icon(
-                          Icons.baby_changing_station,
-                          color: Colors.green,
-                        ),
-                        title: const Text("Birth records"),
+                        leading: Icon(Icons.list, color: Colors.green),
+                        title: const Text("Birth List"),
                         contentPadding: EdgeInsets.only(left: 32),
                         onTap: () {
                           final nav = Navigator.of(context);
                           nav.pop();
                           nav.push(
                             MaterialPageRoute(
-                              builder: (context) => BirthRecordsScreen(),
+                              builder: (context) => BirthListScreen(),
                             ),
                           );
                         },
                       ),
                       ListTile(
-                        leading: Icon(Icons.price_check, color: Colors.green),
-                        title: const Text("Acquisition records"),
+                        leading: Icon(Icons.list, color: Colors.green),
+                        title: const Text("Acquisition List"),
                         contentPadding: EdgeInsets.only(left: 32),
                         onTap: () {
                           final nav = Navigator.of(context);
                           nav.pop();
                           nav.push(
                             MaterialPageRoute(
-                              builder: (context) => AcquisitionRecordsScreen(),
+                              builder: (context) => AcquisitionListScreen(),
                             ),
                           );
                         },
                       ),
                       ListTile(
-                        leading: Icon(Icons.pets, color: Colors.green),
+                        leading: Icon(Icons.list, color: Colors.green),
                         title: const Text("Animal breeds"),
                         contentPadding: EdgeInsets.only(left: 32),
                         onTap: () {
@@ -179,13 +199,13 @@ class HomeScreen extends StatelessWidget {
                           nav.pop();
                           nav.push(
                             MaterialPageRoute(
-                              builder: (context) => AnimalBreedsScreen(),
+                              builder: (context) => AnimalBreedsListScreen(),
                             ),
                           );
                         },
                       ),
                       ListTile(
-                        leading: Icon(Icons.pets, color: Colors.green),
+                        leading: Icon(Icons.list, color: Colors.green),
                         title: const Text("Died records"),
                         contentPadding: EdgeInsets.only(left: 32),
                         onTap: () {
@@ -193,7 +213,7 @@ class HomeScreen extends StatelessWidget {
                           nav.pop();
                           nav.push(
                             MaterialPageRoute(
-                              builder: (context) => DiedRecordsScreen(),
+                              builder: (context) => DiedListScreen(),
                             ),
                           );
                         },

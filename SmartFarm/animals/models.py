@@ -204,4 +204,5 @@ class DiedRecord(models.Model):
     cause = models.CharField(max_length=200, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     notes = models.TextField(blank=True, null=True)
+    status = models.CharField(max_length=10, choices=[("verified", "Verified"), ("recorded", "Recorded"), ("cancelled", "Cancelled")], blank=True, null=True)
     created_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)

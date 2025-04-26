@@ -1,4 +1,5 @@
 class BirthRecord {
+  final int? id;
   final int animalTypeId;
   final String? animalTypeName;
   final int breedId;
@@ -10,6 +11,7 @@ class BirthRecord {
   final String dateOfBirth;
 
   BirthRecord({
+    this.id,
     required this.animalTypeId,
     String this.animalTypeName = "",
     required this.breedId,
@@ -22,7 +24,7 @@ class BirthRecord {
   });
 
   Map<String, dynamic> toJson() {
-    return {
+    final Map<String, dynamic> data = {
       'animal_type': animalTypeId,
       'breed': breedId,
       'weight': weight,
@@ -31,10 +33,17 @@ class BirthRecord {
       'number_of_died': number_of_died,
       'date_of_birth': dateOfBirth,
     };
+
+    // Only include id when it's not null (for updates)
+    if (id != null) {
+      data['id'] = id;
+    }
+    return data;
   }
 
   factory BirthRecord.fromJson(Map<String, dynamic> json) {
     return BirthRecord(
+      id: json['id'],
       animalTypeId: json['animal_type'],
       animalTypeName: json['animal_type_name'],
       breedId: json['breed'],

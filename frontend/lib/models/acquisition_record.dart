@@ -1,4 +1,5 @@
 class AcquisitionRecord {
+  final int? id;
   final int animalTypeId;
   final String? animalTypeName;
   final int breedId;
@@ -12,6 +13,7 @@ class AcquisitionRecord {
   final String? createdByName;
 
   AcquisitionRecord({
+    this.id,
     required this.animalTypeId,
     this.animalTypeName,
     required this.breedId,
@@ -39,6 +41,7 @@ class AcquisitionRecord {
 
   factory AcquisitionRecord.fromJson(Map<String, dynamic> json) {
     return AcquisitionRecord(
+      id: json['id'],
       animalTypeId: json['animal_type'],
       animalTypeName: json['animal_type_name'],
       breedId: json['breed'],

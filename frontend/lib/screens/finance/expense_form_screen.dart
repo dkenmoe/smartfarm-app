@@ -155,6 +155,13 @@ class _ExpenseFormScreenState extends State<ExpenseFormScreen> {
 
     // Set category
     _selectedCategoryId = expense.categoryId;
+    if(_selectedCategoryId != null){
+      for(var category in categoriesMap.values){
+        if(category.id == _selectedCategoryId){
+            selectedcategoriesName = category.name;
+        }
+      }      
+    }
 
     // Set animal type and breed
     if (expense.animalTypeId != null) {

@@ -1,4 +1,4 @@
-import 'package:firstapp/widgets/registration_widgets.dart';
+import 'package:firstapp/widgets/form_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -45,7 +45,7 @@ class _DiedRegistrationScreenState extends State<DiedRegistrationScreen> {
         animalTypeNames = animalTypeMap.keys.toList();
       });
     } catch (e) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "Error loading animal types.",
         Colors.red,
@@ -66,7 +66,7 @@ class _DiedRegistrationScreenState extends State<DiedRegistrationScreen> {
         selectedBreedId = null;
       });
     } catch (e) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "Error loading breeds.",
         Colors.red,
@@ -76,7 +76,7 @@ class _DiedRegistrationScreenState extends State<DiedRegistrationScreen> {
 
   Future<void> _registerDied() async {
     if (selectedAnimalTypeId == null || selectedBreedId == null) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "Please fill in all fields.",
         Colors.orange,
@@ -86,7 +86,7 @@ class _DiedRegistrationScreenState extends State<DiedRegistrationScreen> {
 
     int quantity = int.tryParse(quantityController.text) ?? 0;
     if (quantity <= 0) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "The quantity must be greater than zero.",
         Colors.orange,
@@ -96,7 +96,7 @@ class _DiedRegistrationScreenState extends State<DiedRegistrationScreen> {
 
     double weight = double.tryParse(weightController.text) ?? 0;
     if (weight <= 0) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "The weight must be greater than zero.",
         Colors.orange,
@@ -115,21 +115,21 @@ class _DiedRegistrationScreenState extends State<DiedRegistrationScreen> {
     try {
       bool success = await ApiService.registerDied(diedRecord);
       if (success) {
-        RegistrationWidgets.showSnackbar(
+        FormWidgets.showSnackbar(
           context,
           "Death record successfully registered!",
           Colors.green,
         );
         _resetForm();
       } else {
-        RegistrationWidgets.showSnackbar(
+        FormWidgets.showSnackbar(
           context,
           "Error while saving.",
           Colors.red,
         );
       }
     } catch (e) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "Exception: ${e.toString()}",
         Colors.red,
@@ -174,7 +174,7 @@ class _DiedRegistrationScreenState extends State<DiedRegistrationScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              RegistrationWidgets.buildDropdown(
+              FormWidgets.buildDropdown(
                 "Animal type",
                 animalTypeNames,
                 selectedAnimalTypeName,
@@ -190,7 +190,7 @@ class _DiedRegistrationScreenState extends State<DiedRegistrationScreen> {
                   });
                 },
               ),
-              RegistrationWidgets.buildDropdown(
+              FormWidgets.buildDropdown(
                 "Breed",
                 breedNames,
                 selectedBreedName,
@@ -205,17 +205,17 @@ class _DiedRegistrationScreenState extends State<DiedRegistrationScreen> {
                   });
                 },
               ),
-              RegistrationWidgets.buildTextField(
+              FormWidgets.buildTextField(
                 "Quantity",
                 quantityController,
                 TextInputType.number,
               ),
-              RegistrationWidgets.buildTextField(
+              FormWidgets.buildTextField(
                 "Weight",
                 weightController,
                 TextInputType.numberWithOptions(decimal: true),
               ),
-              RegistrationWidgets.buildDatePicker(
+              FormWidgets.buildDatePicker(
                 context,
                 "Date of death",
                 selectedDate,

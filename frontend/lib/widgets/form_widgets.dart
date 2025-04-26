@@ -66,13 +66,12 @@ class FormWidgets {
         ),
         value: selectedValue,
         onChanged: onChanged,
-        items:
-            items.map<DropdownMenuItem<T>>((T value) {
-              return DropdownMenuItem<T>(
-                value: value,
-                child: Text(value.toString()),
-              );
-            }).toList(),
+        items: items.map<DropdownMenuItem<T>>((T value) {
+          return DropdownMenuItem<T>(
+            value: value,
+            child: Text(value.toString()),
+          );
+        }).toList(),
       ),
     );
   }
@@ -180,38 +179,30 @@ class FormWidgets {
             child: Padding(
               padding: const EdgeInsets.all(4.0),
               child: Row(
-                children:
-                    options.entries.map((entry) {
-                      bool isSelected = selectedValue == entry.key;
-                      return Expanded(
-                        child: GestureDetector(
-                          onTap: () => onChanged(entry.key),
-                          child: Container(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            decoration: BoxDecoration(
-                              color:
-                                  isSelected
-                                      ? Colors.green
-                                      : Colors.transparent,
-                              borderRadius: BorderRadius.circular(6.0),
-                            ),
-                            child: Center(
-                              child: Text(
-                                entry.value,
-                                style: TextStyle(
-                                  color:
-                                      isSelected ? Colors.white : Colors.black,
-                                  fontWeight:
-                                      isSelected
-                                          ? FontWeight.bold
-                                          : FontWeight.normal,
-                                ),
-                              ),
+                children: options.entries.map((entry) {
+                  bool isSelected = selectedValue == entry.key;
+                  return Expanded(
+                    child: GestureDetector(
+                      onTap: () => onChanged(entry.key),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: 10),
+                        decoration: BoxDecoration(
+                          color: isSelected ? Colors.green : Colors.transparent,
+                          borderRadius: BorderRadius.circular(6.0),
+                        ),
+                        child: Center(
+                          child: Text(
+                            entry.value,
+                            style: TextStyle(
+                              color: isSelected ? Colors.white : Colors.black,
+                              fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                             ),
                           ),
                         ),
-                      );
-                    }).toList(),
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
             ),
           ),

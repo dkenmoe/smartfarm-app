@@ -1,5 +1,4 @@
-// screens/birth_registration_screen.dart
-import 'package:firstapp/widgets/registration_widgets.dart';
+import 'package:firstapp/widgets/form_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -50,7 +49,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
         animalTypeNames = animalTypeMap.keys.toList();
       });
     } catch (e) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "Error loading animal types.",
         Colors.red,
@@ -71,7 +70,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
         selectedBreedId = null;
       });
     } catch (e) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "Error loading breeds.",
         Colors.red,
@@ -81,7 +80,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
 
   Future<void> _registerBirth() async {
     if (selectedAnimalTypeId == null || selectedBreedId == null) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "Please fill in all fields.",
         Colors.orange,
@@ -91,7 +90,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
 
     double weight = double.tryParse(weightController.text) ?? 0;
     if (weight <= 0) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "The weight must be greater than zero.",
         Colors.orange,
@@ -101,7 +100,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
 
     int numberOfMale = int.tryParse(numberOfMaleController.text) ?? 0;
     if (numberOfMale < 0) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "The number of male must be greater or equal to zero.",
         Colors.orange,
@@ -111,7 +110,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
 
     int numberOfFemale = int.tryParse(numberOfFemaleController.text) ?? 0;
     if (numberOfFemale < 0) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "The number of female must be greater or equal to zero.",
         Colors.orange,
@@ -121,7 +120,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
 
     int numberOfDied = int.tryParse(numberOfDiedController.text) ?? 0;
     if (numberOfDied < 0) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "The number of died must be greater or equal to zero.",
         Colors.orange,
@@ -131,7 +130,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
 
     // Additional validation to ensure total number is greater than 0
     if (numberOfMale + numberOfFemale + numberOfDied == 0) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "The total number of births must be greater than zero.",
         Colors.orange,
@@ -152,21 +151,21 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
     try {
       bool success = await ApiService.registerBirth(birthRecord);
       if (success) {
-        RegistrationWidgets.showSnackbar(
+        FormWidgets.showSnackbar(
           context,
           "Birth successfully registered!",
           Colors.green,
         );
         _resetForm();
       } else {
-        RegistrationWidgets.showSnackbar(
+        FormWidgets.showSnackbar(
           context,
           "Error while saving.",
           Colors.red,
         );
       }
     } catch (e) {
-      RegistrationWidgets.showSnackbar(
+      FormWidgets.showSnackbar(
         context,
         "Exception: ${e.toString()}",
         Colors.red,
@@ -213,7 +212,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              RegistrationWidgets.buildDropdown(
+              FormWidgets.buildDropdown(
                 "Animal type",
                 animalTypeNames,
                 selectedAnimalTypeName,
@@ -229,7 +228,7 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
                   });
                 },
               ),
-              RegistrationWidgets.buildDropdown(
+              FormWidgets.buildDropdown(
                 "Breed",
                 breedNames,
                 selectedBreedName,
@@ -244,27 +243,27 @@ class _BirthRegistrationScreenState extends State<BirthRegistrationScreen> {
                   });
                 },
               ),
-              RegistrationWidgets.buildTextField(
+              FormWidgets.buildTextField(
                 "Weight",
                 weightController,
                 TextInputType.number,
               ),
-              RegistrationWidgets.buildTextField(
+              FormWidgets.buildTextField(
                 "Number of male",
                 numberOfMaleController,
                 TextInputType.number,
               ),
-              RegistrationWidgets.buildTextField(
+              FormWidgets.buildTextField(
                 "Number of female",
                 numberOfFemaleController,
                 TextInputType.number,
               ),
-              RegistrationWidgets.buildTextField(
+              FormWidgets.buildTextField(
                 "Number of died",
                 numberOfDiedController,
                 TextInputType.number,
               ),
-              RegistrationWidgets.buildDatePicker(
+              FormWidgets.buildDatePicker(
                 context,
                 "Birthdate",
                 selectedDate,
