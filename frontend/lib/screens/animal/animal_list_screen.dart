@@ -6,6 +6,7 @@ import 'package:firstapp/screens/animal/animal_form_screen.dart';
 import 'package:firstapp/widgets/list_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class AnimalListScreen extends StatefulWidget {
   const AnimalListScreen({Key? key}) : super(key: key);
@@ -39,15 +40,14 @@ class _AnimalListScreenState extends State<AnimalListScreen> {
       setState(() => _isLoading = false);
     } catch (e) {
       setState(() => _isLoading = false);
-      _showErrorSnackbar("Failed to load farms or animals: \${e.toString()}");
+      _showErrorSnackbar("Failed to load farms or animals: ${e.toString()}");
     }
   }
 
   Future<void> _loadAnimals() async {
     if (selectedFarmId == null) return;
-    final results = await AnimalService.fetchAnimals(farmId: selectedFarmId!);
+    final results = await AnimalService.fetchAnimals(farmId: selectedFarmId);
     setState(() {
-      _animals.clear();
       _animals = results;
     });
   }
@@ -78,6 +78,125 @@ class _AnimalListScreenState extends State<AnimalListScreen> {
     if (result == true) _loadAnimals();
   }
 
+  void _showAnimalDetails(Animal animal) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Row(
+          children: [
+            Icon(Icons.pets, color: Colors.green),
+            SizedBox(width: 8),
+            Text("Animal Details", style: TextStyle(fontWeight: FontWeight.bold)),
+          ],
+        ),
+        content: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListTile(
+                leading: Icon(Icons.badge, color: Colors.teal),
+                title: Text("Tracking ID"),
+                subtitle: Text(animal.trackingId),
+              ),
+              ListTile(
+                leading: Icon(Icons.category, color: Colors.indigo),
+                title: Text("Animal Type"),
+                subtitle: Text(animal.animalTypeName ?? 'N/A'),
+              ),
+              ListTile(
+                leading: Icon(Icons.pets, color: Colors.orange),
+                title: Text("Breed"),
+                subtitle: Text(animal.breedName ?? 'N/A'),
+              ),
+              ListTile(
+                leading: Icon(Icons.family_restroom, color: Colors.purple),
+                title: Text("Gender"),
+                subtitle: Text(animal.gender),
+              ),
+              ListTile(
+                leading: Icon(Icons.flag, color: Colors.blueGrey),
+                title: Text("Status"),
+                subtitle: Text(animal.status),
+              ),
+              ListTile(
+                leading: Icon(Icons.home_work, color: Colors.green),
+                title: Text("Farm"),
+                subtitle: Text(animal.farmName ?? 'N/A'),
+              ),
+              if (animal.dateOfBirth != null)
+                ListTile(
+                  leading: Icon(Icons.cake, color: Colors.pinkAccent),
+                  title: Text("Date of Birth"),
+                  subtitle: Text(DateFormat('yyyy-MM-dd').format(animal.dateOfBirth!)),
+                ),
+              if (animal.dateOfAcquisition != null)
+                ListTile(
+                  leading: Icon(Icons.event_available, color: Colors.blue),
+                  title: Text("Date of Acquisition"),
+                  subtitle: Text(DateFormat('yyyy-MM-dd').format(animal.dateOfAcquisition!)),
+                ),
+              if (animal.lastWeighDate != null)
+                ListTile(
+                  leading: Icon(Icons.scale, color: Colors.deepOrange),
+                  title: Text("Last Weigh Date"),
+                  subtitle: Text(DateFormat('yyyy-MM-dd').format(animal.lastWeighDate!)),
+                ),
+              if (animal.initialWeight != null)
+                ListTile(
+                  leading: Icon(Icons.monitor_weight, color: Colors.grey),
+                  title: Text("Initial Weight"),
+                  subtitle: Text("${animal.initialWeight} kg"),
+                ),
+              if (animal.currentWeight != null)
+                ListTile(
+                  leading: Icon(Icons.monitor_weight_outlined, color: Colors.teal),
+                  title: Text("Current Weight"),
+                  subtitle: Text("${animal.currentWeight} kg"),
+                ),
+              if (animal.notes != null && animal.notes!.isNotEmpty)
+                ListTile(
+                  leading: Icon(Icons.note_alt, color: Colors.brown),
+                  title: Text("Notes"),
+                  subtitle: Text(animal.notes!),
+                ),
+              if (animal.createdBy != null)
+                ListTile(
+                  leading: Icon(Icons.person, color: Colors.cyan),
+                  title: Text("Created By"),
+                  subtitle: Text(animal.createdBy!),
+                ),
+              if (animal.createdAt != null)
+                ListTile(
+                  leading: Icon(Icons.calendar_today, color: Colors.deepPurple),
+                  title: Text("Created At"),
+                  subtitle: Text(DateFormat('yyyy-MM-dd HH:mm').format(animal.createdAt!)),
+                ),
+              if (animal.updatedAt != null)
+                ListTile(
+                  leading: Icon(Icons.update, color: Colors.amber),
+                  title: Text("Last Updated"),
+                  subtitle: Text(DateFormat('yyyy-MM-dd HH:mm').format(animal.updatedAt!)),
+                ),
+              if (animal.qrCodeUrl != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  child: Center(child: Image.network(animal.qrCodeUrl!, height: 100)),
+                ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton.icon(
+            onPressed: () => Navigator.pop(context),
+            icon: Icon(Icons.close),
+            label: Text("Close"),
+            style: TextButton.styleFrom(foregroundColor: Colors.redAccent),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,11 +209,7 @@ class _AnimalListScreenState extends State<AnimalListScreen> {
         actions: [
           Padding(
             padding: const EdgeInsets.only(right: 12.0),
-            child: Image.asset(
-              'assets/images/smartfarm_2_16x16.png',
-              width: 24,
-              height: 24,
-            ),
+            child: Image.asset('assets/images/smartfarm_2_16x16.png', width: 24, height: 24),
           ),
         ],
       ),
@@ -107,7 +222,11 @@ class _AnimalListScreenState extends State<AnimalListScreen> {
                     padding: const EdgeInsets.all(12.0),
                     child: DropdownButtonFormField<String>(
                       value: selectedFarmName,
-                      decoration: InputDecoration(labelText: 'Farm'),
+                      decoration: InputDecoration(
+                        labelText: 'Select Farm',
+                        prefixIcon: Icon(Icons.agriculture, color: Colors.green),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                      ),
                       items: _farms.map((farm) {
                         return DropdownMenuItem(
                           value: farm.name,
@@ -142,9 +261,7 @@ class _AnimalListScreenState extends State<AnimalListScreen> {
                                   backgroundColor: Colors.green,
                                   foregroundColor: Colors.white,
                                   padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                                 ),
                               ),
                             ],
@@ -158,76 +275,69 @@ class _AnimalListScreenState extends State<AnimalListScreen> {
                             return Card(
                               elevation: 2,
                               margin: EdgeInsets.only(bottom: 16),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              child: InkWell(
-                                onTap: () => _navigateToEditAnimalScreen(animal),
-                                borderRadius: BorderRadius.circular(12),
-                                child: Padding(
-                                  padding: EdgeInsets.all(16),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Expanded(
-                                            child: Text(
-                                              "\${animal.animalTypeName ?? 'Type'} - \${animal.breedName ?? 'Breed'}",
-                                              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                              child: Padding(
+                                padding: EdgeInsets.all(16),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            "${animal.animalTypeName ?? 'Type'} - ${animal.breedName ?? 'Breed'}",
+                                            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
                                           ),
-                                          Container(
-                                            padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                            decoration: BoxDecoration(
-                                              color: Colors.green,
-                                              borderRadius: BorderRadius.circular(8),
-                                            ),
-                                            child: Text(
-                                              animal.status,
-                                              style: TextStyle(color: Colors.white, fontSize: 12),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 4),
-                                      ListWidgets.BuildCountBadge(
-                                        Icons.person,
-                                        Colors.redAccent,
-                                        "ID: \${animal.trackingId}",
-                                      ),
-                                      if (animal.currentWeight != null)
-                                        SizedBox(height: 4),
-                                      ListWidgets.BuildCountBadge(
-                                        Icons.scale,
-                                        Colors.indigo,
-                                        "Current Weight: \${animal.currentWeight} kg",
-                                      ),
-                                      SizedBox(height: 4),
-                                      if (animal.gender.isNotEmpty)
-                                        if (animal.gender == "Male")
-                                          ListWidgets.BuildCountBadge(
-                                            Icons.male,
-                                            Colors.blue,
-                                            "Gender: \${animal.gender}",
-                                          ),
-                                      if (animal.gender == "Female")
-                                        ListWidgets.BuildCountBadge(
-                                          Icons.female,
-                                          Colors.pink,
-                                          "Gender: \${animal.gender}",
                                         ),
-                                      if (animal.dateOfBirth != null)
-                                        ListWidgets.BuildCountBadge(
-                                          Icons.calendar_view_day,
-                                          Colors.green,
-                                          "Birth Date: \${DateFormat('yyyy-MM-dd').format(animal.dateOfBirth!)}",
+                                        Container(
+                                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                          decoration: BoxDecoration(
+                                            color: Colors.green,
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          child: Text(
+                                            animal.status,
+                                            style: TextStyle(color: Colors.white, fontSize: 12),
+                                          ),
                                         ),
-                                    ],
-                                  ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 4),
+                                    ListWidgets.BuildCountBadge(Icons.person, Colors.redAccent, "ID: ${animal.trackingId}"),
+                                    if (animal.currentWeight != null)
+                                      SizedBox(height: 4),
+                                    ListWidgets.BuildCountBadge(Icons.scale, Colors.indigo, "Current Weight: ${animal.currentWeight} kg"),
+                                    SizedBox(height: 4),
+                                    if (animal.gender.isNotEmpty)
+                                      ListWidgets.BuildCountBadge(
+                                        animal.gender == "Male" ? Icons.male : Icons.female,
+                                        animal.gender == "Male" ? Colors.blue : Colors.pink,
+                                        "Gender: ${animal.gender}",
+                                      ),
+                                    if (animal.dateOfBirth != null)
+                                      ListWidgets.BuildCountBadge(
+                                        Icons.calendar_view_day,
+                                        Colors.green,
+                                        "Birth Date: ${DateFormat('yyyy-MM-dd').format(animal.dateOfBirth!)}",
+                                      ),
+                                    SizedBox(height: 8),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+                                        TextButton(
+                                          onPressed: () => _showAnimalDetails(animal),
+                                          child: Text("View"),
+                                        ),
+                                        TextButton(
+                                          onPressed: () => _navigateToEditAnimalScreen(animal),
+                                          child: Text("Edit"),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
                               ),
                             );
