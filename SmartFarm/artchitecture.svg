@@ -1,0 +1,436 @@
+<svg viewBox="0 0 1200 1400" xmlns="http://www.w3.org/2000/svg">
+  <!-- Arrière-plan -->
+  <rect x="0" y="0" width="1200" height="1400" fill="#f8f9fa" stroke="none"/>
+
+  <!-- Titre -->
+  <text x="600" y="40" font-family="Arial" font-size="24" text-anchor="middle" font-weight="bold" fill="#333">Schéma Structurel de l'Application de Gestion de Ferme</text>
+
+  <!-- Légende -->
+  <rect x="50" y="60" width="20" height="20" fill="#4285f4" rx="3" ry="3"/>
+  <text x="80" y="75" font-family="Arial" font-size="14" fill="#333">Modèles de base</text>
+  
+  <rect x="200" y="60" width="20" height="20" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="230" y="75" font-family="Arial" font-size="14" fill="#333">Améliorations proposées</text>
+  
+  <rect x="400" y="60" width="20" height="20" fill="#f4b400" rx="3" ry="3"/>
+  <text x="430" y="75" font-family="Arial" font-size="14" fill="#333">Analyses et IA</text>
+  
+  <rect x="550" y="60" width="20" height="20" fill="#db4437" rx="3" ry="3"/>
+  <text x="580" y="75" font-family="Arial" font-size="14" fill="#333">Frontend (Flutter)</text>
+  
+  <line x1="700" y1="70" x2="750" y2="70" stroke="#333" stroke-width="2"/>
+  <text x="780" y="75" font-family="Arial" font-size="14" fill="#333">Relation</text>
+  
+  <line x1="850" y1="70" x2="900" y2="70" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="930" y="75" font-family="Arial" font-size="14" fill="#333">Dépendance</text>
+
+  <!-- Module Production Animale -->
+  <rect x="50" y="100" width="500" height="360" fill="#e1f5fe" stroke="#4285f4" stroke-width="2" rx="10" ry="10"/>
+  <text x="300" y="125" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#333">Module Production Animale</text>
+  
+  <!-- Titre de section backend -->
+  <text x="300" y="85" font-family="Arial" font-size="14" text-anchor="middle" font-weight="bold" fill="#333">BACKEND (DJANGO)</text>
+  
+  <!-- Modèles de base production -->
+  <rect x="70" y="140" width="220" height="300" fill="#fff" stroke="#4285f4" stroke-width="2" rx="5" ry="5"/>
+  <text x="180" y="160" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#4285f4">Modèles de Base</text>
+  
+  <rect x="80" y="170" width="200" height="30" fill="#4285f4" rx="3" ry="3"/>
+  <text x="180" y="190" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">AnimalType</text>
+  
+  <rect x="80" y="205" width="200" height="30" fill="#4285f4" rx="3" ry="3"/>
+  <text x="180" y="225" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">AnimalBreed</text>
+  
+  <rect x="80" y="240" width="200" height="30" fill="#4285f4" rx="3" ry="3"/>
+  <text x="180" y="260" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">WeightCategory</text>
+  
+  <rect x="80" y="275" width="200" height="30" fill="#4285f4" rx="3" ry="3"/>
+  <text x="180" y="295" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">BirthRecord</text>
+  
+  <rect x="80" y="310" width="200" height="30" fill="#4285f4" rx="3" ry="3"/>
+  <text x="180" y="330" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">AcquisitionRecord</text>
+  
+  <rect x="80" y="345" width="200" height="30" fill="#4285f4" rx="3" ry="3"/>
+  <text x="180" y="365" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">DiedRecord</text>
+  
+  <rect x="80" y="380" width="200" height="30" fill="#4285f4" rx="3" ry="3"/>
+  <text x="180" y="400" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">AnimalInventory</text>
+  
+  <!-- Modèles améliorés production -->
+  <rect x="310" y="140" width="220" height="300" fill="#fff" stroke="#0f9d58" stroke-width="2" rx="5" ry="5"/>
+  <text x="420" y="160" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#0f9d58">Améliorations</text>
+  
+  <rect x="320" y="170" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="190" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Animal (Individuel)</text>
+  
+  <rect x="320" y="205" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="225" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">WeightRecord</text>
+  
+  <rect x="320" y="240" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="260" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">HealthCondition</text>
+  
+  <rect x="320" y="275" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="295" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">HealthRecord</text>
+  
+  <rect x="320" y="310" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="330" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Treatment</text>
+  
+  <rect x="320" y="345" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="365" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">AdministeredTreatment</text>
+  
+  <rect x="320" y="380" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="400" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">QR Code Generator</text>
+
+  <!-- Module Finance -->
+  <rect x="50" y="480" width="500" height="290" fill="#e8f5e9" stroke="#4285f4" stroke-width="2" rx="10" ry="10"/>
+  <text x="300" y="505" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#333">Module Finance</text>
+  
+  <!-- Modèles de base finance -->
+  <rect x="70" y="520" width="220" height="230" fill="#fff" stroke="#4285f4" stroke-width="2" rx="5" ry="5"/>
+  <text x="180" y="540" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#4285f4">Modèles de Base</text>
+  
+  <rect x="80" y="550" width="200" height="30" fill="#4285f4" rx="3" ry="3"/>
+  <text x="180" y="570" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">ExpenseCategory</text>
+  
+  <rect x="80" y="585" width="200" height="30" fill="#4285f4" rx="3" ry="3"/>
+  <text x="180" y="605" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Supplier</text>
+  
+  <rect x="80" y="620" width="200" height="30" fill="#4285f4" rx="3" ry="3"/>
+  <text x="180" y="640" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">PaymentMethod</text>
+  
+  <rect x="80" y="655" width="200" height="30" fill="#4285f4" rx="3" ry="3"/>
+  <text x="180" y="675" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Expense</text>
+  
+  <!-- Modèles améliorés finance -->
+  <rect x="310" y="520" width="220" height="230" fill="#fff" stroke="#0f9d58" stroke-width="2" rx="5" ry="5"/>
+  <text x="420" y="540" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#0f9d58">Améliorations</text>
+  
+  <rect x="320" y="550" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="570" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Customer</text>
+  
+  <rect x="320" y="585" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="605" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Sale</text>
+  
+  <rect x="320" y="620" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="640" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">SaleItem</text>
+  
+  <rect x="320" y="655" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="675" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FinancialReport</text>
+  
+  <rect x="320" y="690" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="710" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">BudgetPlanning</text>
+
+  <!-- Module Alimentation -->
+  <rect x="50" y="790" width="500" height="180" fill="#fff8e1" stroke="#0f9d58" stroke-width="2" rx="10" ry="10"/>
+  <text x="300" y="815" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#333">Module Alimentation</text>
+  
+  <rect x="70" y="830" width="220" height="120" fill="#fff" stroke="#0f9d58" stroke-width="2" rx="5" ry="5"/>
+  <text x="180" y="850" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#0f9d58">Gestion Alimentaire</text>
+  
+  <rect x="80" y="860" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="180" y="880" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FeedType</text>
+  
+  <rect x="80" y="895" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="180" y="915" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FeedInventory</text>
+  
+  <rect x="80" y="930" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="180" y="950" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FeedingRecord</text>
+  
+  <rect x="310" y="830" width="220" height="120" fill="#fff" stroke="#0f9d58" stroke-width="2" rx="5" ry="5"/>
+  <text x="420" y="850" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#0f9d58">Planification</text>
+  
+  <rect x="320" y="860" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="880" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FeedingPlan</text>
+  
+  <rect x="320" y="895" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="915" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">NutritionalNeeds</text>
+  
+  <rect x="320" y="930" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="950" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FeedingOptimization</text>
+
+  <!-- Module Multi-fermes -->
+  <rect x="50" y="990" width="500" height="180" fill="#f3e5f5" stroke="#0f9d58" stroke-width="2" rx="10" ry="10"/>
+  <text x="300" y="1015" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#333">Module Multi-fermes</text>
+  
+  <rect x="70" y="1030" width="220" height="120" fill="#fff" stroke="#0f9d58" stroke-width="2" rx="5" ry="5"/>
+  <text x="180" y="1050" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#0f9d58">Gestion des Fermes</text>
+  
+  <rect x="80" y="1060" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="180" y="1080" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Farm</text>
+  
+  <rect x="80" y="1095" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="180" y="1115" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FarmUser</text>
+  
+  <rect x="80" y="1130" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="180" y="1150" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FarmArea</text>
+  
+  <rect x="310" y="1030" width="220" height="120" fill="#fff" stroke="#0f9d58" stroke-width="2" rx="5" ry="5"/>
+  <text x="420" y="1050" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#0f9d58">Gestion des Tâches</text>
+  
+  <rect x="320" y="1060" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="1080" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Task</text>
+  
+  <rect x="320" y="1095" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="1115" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">TaskComment</text>
+  
+  <rect x="320" y="1130" width="200" height="30" fill="#0f9d58" rx="3" ry="3"/>
+  <text x="420" y="1150" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Alert</text>
+
+  <!-- Module Analyse et IA -->
+  <rect x="50" y="1190" width="500" height="180" fill="#ffebee" stroke="#f4b400" stroke-width="2" rx="10" ry="10"/>
+  <text x="300" y="1215" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#333">Module Analyse et IA</text>
+  
+  <rect x="70" y="1230" width="220" height="120" fill="#fff" stroke="#f4b400" stroke-width="2" rx="5" ry="5"/>
+  <text x="180" y="1250" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#f4b400">Rapports et Métriques</text>
+  
+  <rect x="80" y="1260" width="200" height="30" fill="#f4b400" rx="3" ry="3"/>
+  <text x="180" y="1280" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">DashboardMetric</text>
+  
+  <rect x="80" y="1295" width="200" height="30" fill="#f4b400" rx="3" ry="3"/>
+  <text x="180" y="1315" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Report</text>
+  
+  <rect x="80" y="1330" width="200" height="30" fill="#f4b400" rx="3" ry="3"/>
+  <text x="180" y="1350" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">ReportSchedule</text>
+  
+  <rect x="310" y="1230" width="220" height="120" fill="#fff" stroke="#f4b400" stroke-width="2" rx="5" ry="5"/>
+  <text x="420" y="1250" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#f4b400">Machine Learning</text>
+  
+  <rect x="320" y="1260" width="200" height="30" fill="#f4b400" rx="3" ry="3"/>
+  <text x="420" y="1280" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">MLModel</text>
+  
+  <rect x="320" y="1295" width="200" height="30" fill="#f4b400" rx="3" ry="3"/>
+  <text x="420" y="1315" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">Prediction</text>
+  
+  <rect x="320" y="1330" width="200" height="30" fill="#f4b400" rx="3" ry="3"/>
+  <text x="420" y="1350" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">MLService</text>
+
+  <!-- Frontend Flutter -->
+  <rect x="600" y="100" width="550" height="1270" fill="#fce4ec" stroke="#db4437" stroke-width="2" rx="10" ry="10"/>
+  <text x="875" y="125" font-family="Arial" font-size="18" text-anchor="middle" font-weight="bold" fill="#333">FRONTEND (FLUTTER)</text>
+  
+  <!-- Services Flutter -->
+  <rect x="880" y="570" width="250" height="270" fill="#fff" stroke="#db4437" stroke-width="2" rx="5" ry="5"/>
+  <text x="1005" y="590" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#db4437">Services</text>
+  
+  <rect x="890" y="600" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="620" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">ApiService</text>
+  
+  <rect x="890" y="635" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="655" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">AuthService</text>
+  
+  <rect x="890" y="670" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="690" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">DashboardService</text>
+  
+  <rect x="890" y="705" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="725" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">ExpenseService</text>
+  
+  <rect x="890" y="740" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="760" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">BirthService</text>
+  
+  <rect x="890" y="775" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="795" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">DiedRecordService</text>
+  
+  <rect x="890" y="810" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="830" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">AnalyticsService</text>
+  
+  <!-- Écrans principaux -->
+  <rect x="620" y="140" width="250" height="300" fill="#fff" stroke="#db4437" stroke-width="2" rx="5" ry="5"/>
+  <text x="745" y="160" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#db4437">Écrans Principaux</text>
+  
+  <rect x="630" y="170" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="190" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">LoginScreen</text>
+  
+  <rect x="630" y="205" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="225" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">HomeScreen</text>
+  
+  <rect x="630" y="240" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="260" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">SettingsScreen</text>
+  
+  <rect x="630" y="275" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="295" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">DashboardScreen</text>
+  
+  <rect x="630" y="310" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="330" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">NotificationsScreen</text>
+  
+  <rect x="630" y="345" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="365" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">ProfileScreen</text>
+  
+  <rect x="630" y="380" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="400" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">TasksScreen</text>
+  
+  <rect x="630" y="415" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="435" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FarmSelectionScreen</text>
+  
+  <!-- Écrans Productions -->
+  <rect x="620" y="460" width="250" height="240" fill="#fff" stroke="#db4437" stroke-width="2" rx="5" ry="5"/>
+  <text x="745" y="480" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#db4437">Production Animale</text>
+  
+  <rect x="630" y="490" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="510" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">AnimalInventoryListScreen</text>
+  
+  <rect x="630" y="525" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="545" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">AnimalDetailScreen</text>
+  
+  <rect x="630" y="560" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="580" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">BirthListScreen</text>
+  
+  <rect x="630" y="595" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="615" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">BirthFormScreen</text>
+  
+  <rect x="630" y="630" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="650" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">DiedListScreen</text>
+  
+  <rect x="630" y="665" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="685" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">AcquisitionListScreen</text>
+
+  <!-- Écrans Finance -->
+  <rect x="620" y="710" width="250" height="205" fill="#fff" stroke="#db4437" stroke-width="2" rx="5" ry="5"/>
+  <text x="745" y="730" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#db4437">Finance</text>
+  
+  <rect x="630" y="740" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="760" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">ExpenseListScreen</text>
+  
+  <rect x="630" y="775" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="795" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">ExpenseFormScreen</text>
+  
+  <rect x="630" y="810" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="830" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">SaleListScreen</text>
+  
+  <rect x="630" y="845" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="865" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">SaleFormScreen</text>
+  
+  <rect x="630" y="880" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="900" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FinancialReportScreen</text>
+
+  <!-- Écrans Alimentation -->
+  <rect x="620" y="925" width="250" height="135" fill="#fff" stroke="#db4437" stroke-width="2" rx="5" ry="5"/>
+  <text x="745" y="945" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#db4437">Alimentation</text>
+<rect x="630" y="955" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="975" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FeedInventoryScreen</text>
+  
+  <rect x="630" y="990" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="1010" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FeedingRecordScreen</text>
+  
+  <rect x="630" y="1025" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="1045" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FeedingPlanScreen</text>
+
+  <!-- Écrans Analyse -->
+  <rect x="620" y="1070" width="250" height="170" fill="#fff" stroke="#db4437" stroke-width="2" rx="5" ry="5"/>
+  <text x="745" y="1090" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#db4437">Analyse et Rapports</text>
+  
+  <rect x="630" y="1100" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="1120" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">AdvancedAnalyticsScreen</text>
+  
+  <rect x="630" y="1135" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="1155" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">RecommendationsScreen</text>
+  
+  <rect x="630" y="1170" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="1190" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">PredictionsScreen</text>
+  
+  <rect x="630" y="1205" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="745" y="1225" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">CustomReportBuilder</text>
+
+  <!-- Composants -->
+  <rect x="880" y="140" width="250" height="420" fill="#fff" stroke="#db4437" stroke-width="2" rx="5" ry="5"/>
+  <text x="1005" y="160" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#db4437">Composants UI</text>
+  
+  <rect x="890" y="170" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="190" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FormWidgets</text>
+  
+  <rect x="890" y="205" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="225" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FilterDialog</text>
+  
+  <rect x="890" y="240" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="260" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">AnimalTypeSelector</text>
+  
+  <rect x="890" y="275" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="295" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">BreedSelector</text>
+  
+  <rect x="890" y="310" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="330" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">RecommendationCard</text>
+  
+  <rect x="890" y="345" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="365" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">QRCodeScanner</text>
+  
+  <rect x="890" y="380" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="400" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">DataTableWithFilters</text>
+  
+  <rect x="890" y="415" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="435" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">PopulationPieChart</text>
+  
+  <rect x="890" y="450" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="470" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">BirthTrendChart</text>
+  
+  <rect x="890" y="485" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="505" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">FinancialLineChart</text>
+  
+  <rect x="890" y="520" width="230" height="30" fill="#db4437" rx="3" ry="3"/>
+  <text x="1005" y="540" font-family="Arial" font-size="14" text-anchor="middle" fill="#fff">GrowthBarChart</text>
+
+  <!-- Relation entre les modules -->
+  <!-- Production -> Finance -->
+  <path d="M300 460 L300 480" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Finance -> Alimentation -->
+  <path d="M300 770 L300 790" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Alimentation -> Multi-fermes -->
+  <path d="M300 970 L300 990" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Multi-fermes -> Analyse et IA -->
+  <path d="M300 1170 L300 1190" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Animal -> Alimentation -->
+  <path d="M420 400 C420 600 150 600 150 790" stroke="#333" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  
+  <!-- Animal -> Santé -->
+  <path d="M420 310 L485 310" stroke="#333" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Animal -> Ventes -->
+  <path d="M320 400 C320 550 400 550 400 585" stroke="#333" stroke-width="2" stroke-dasharray="5,5" marker-end="url(#arrowhead)"/>
+  
+  <!-- ML vers tableau de bord -->
+  <path d="M530 1300 C600 1300 600 1135 630 1135" stroke="#f4b400" stroke-width="2" marker-end="url(#arrowhead)"/>
+  
+  <!-- Backend -> modules fonctionnels -->
+  <path d="M400 200 L400 240" stroke="#424242" stroke-width="2" fill="none"/>
+  
+  <!-- Modules vers base de données -->
+  <path d="M400 360 L400 400" stroke="#424242" stroke-width="2" fill="none"/>
+
+  <!-- Relations entre backend et frontend -->
+  <path d="M550 250 C650 250 650 400 890 400" stroke="#424242" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+  <path d="M550 320 C700 320 700 650 890 650" stroke="#424242" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+  <path d="M550 350 C720 350 720 700 890 700" stroke="#424242" stroke-width="2" fill="none" stroke-dasharray="5,5"/>
+  
+  <!-- Ajout de légende explicative -->
+  <rect x="880" y="850" width="250" height="200" fill="#fff" stroke="#333" stroke-width="1" rx="5" ry="5"/>
+  <text x="1005" y="870" font-family="Arial" font-size="16" text-anchor="middle" font-weight="bold" fill="#333">Légende des Relations</text>
+  
+  <line x1="890" y1="890" x2="920" y2="890" stroke="#333" stroke-width="2"/>
+  <text x="1010" y="895" font-family="Arial" font-size="12" fill="#333">Relation directe (dépendance forte)</text>
+  
+  <line x1="890" y1="915" x2="920" y2="915" stroke="#333" stroke-width="2" stroke-dasharray="5,5"/>
+  <text x="1010" y="920" font-family="Arial" font-size="12" fill="#333">Relation indirecte (dépendance faible)</text>
+  
+  <rect x="890" y="935" width="12" height="12" fill="#4285f4" rx="2" ry="2"/>
+  <text x="970" y="945" font-family="Arial" font-size="12" fill="#333">Modèles de base</text>
+  
+  <rect x="890" y="955" width="12" height="12" fill="#0f9d58" rx="2" ry="2"/>
+  <text x="970" y="965" font-family="Arial" font-size="12" fill="#333">Améliorations proposées</text>
+  
+  <rect x="890" y="975" width="12" height="12" fill="#f4b400" rx="2" ry="2"/>
+  <text x="970" y="985" font-family="Arial" font-size="12" fill="#333">Analyses et IA</text>
+  
+  <rect x="890" y="995" width="12" height="12" fill="#db4437" rx="2" ry="2"/>
+  <text x="970" y="1005" font-family="Arial" font-size="12" fill="#333">Frontend (Flutter)</text>
+  
+  <text x="1005" y="1025" font-family="Arial" font-size="10" text-anchor="middle" fill="#666">Les relations indiquent les flux de données et les dépendances fonctionnelles</text>
+  
+  <!-- Définition des flèches -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#333"/>
+    </marker>
+  </defs>
+</svg>

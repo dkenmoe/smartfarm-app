@@ -1,0 +1,24 @@
+{
+    "environments": [
+      {
+        "name": "Local",
+        "default": true,
+        "variables": {
+          "base_url": "http://localhost:8000"
+        }
+      },
+      {
+        "name": "Staging",
+        "variables": {
+          "base_url": "https://staging.smartfarm.example.com"
+        }
+      },
+      {
+        "name": "Production",
+        "variables": {
+          "base_url": "https://smartfarm.example.com"
+        }
+      }
+    ]
+  }
+  

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:firstapp/models/acquisition_record.dart';
+import 'package:firstapp/models/animal/animal.dart';
 import 'package:firstapp/models/animal_breed.dart';
 import 'package:firstapp/models/animal_inventory.dart';
 import 'package:firstapp/models/animal_type.dart';
@@ -10,7 +11,6 @@ import 'package:firstapp/models/weight_category.dart';
 import 'package:firstapp/services/logger_service.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
-import '../models/animal.dart';
 
 class ApiService {
   static final String _baseUrl = AppConfig.baseUrl;
@@ -20,17 +20,17 @@ class ApiService {
 
   // Endpoints constants
   static const String _tokenKey = 'access_token';
-  static const String _typesEndpoint = '/animals/animal-types/';
-  static const String _breedsEndpoint = '/animals/animal-breeds/';
-  static const String _birthRecordsEndpoint = '/animals/birth-records/';
-  static const String _diedRecordsEndpoint = '/animals/died-records/';
+  static const String _typesEndpoint = '/productions/animal-types/';
+  static const String _breedsEndpoint = '/productions/animal-breeds/';
+  static const String _birthRecordsEndpoint = '/productions/birth-records/';
+  static const String _diedRecordsEndpoint = '/productions/died-records/';
   static const String _acquisitionRecordsEndpoint =
-      '/animals/acquisition_records/';
-  static const String _weightCategories = '/animals/weight-categories/';
-  static const String _animalInventories = '/animals/animal-inventories/';
-  static const String _animalsRecords = '/animals/birth-records/';
+      '/productions/acquisition_records/';
+  static const String _weightCategories = '/productions/weight-categories/';
+  static const String _animalInventories = '/productions/animal-inventories/';
+  static const String _animalsRecords = '/productions/birth-records/';
   static const String _breedAnimalTypes =
-      '/animals/animal-breeds/?animal_type=';
+      '/productions/animal-breeds/?animal_type=';
 
   //Common headers
   static Future<Map<String, String>> _getAuthHeaders() async {
@@ -87,14 +87,34 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
-        return (json.decode(response.body) as List)
-            .map((e) => AnimalType.fromJson(e))
-            .toList();
+        final Map<String, dynamic> decoded = json.decode(response.body);
+        final List<dynamic> results = decoded['results'];
+        return results.map((e) => AnimalType.fromJson(e)).toList();
       }
       throw _createException("Failed to load animal types", response);
     } catch (e) {
       _logger.error('Exception in fetchAnimalTypes: $e');
       rethrow;
+    }
+  }
+
+  static Future<List<AnimalBreed>> fetchAnimalBreeds() async {
+    try {
+      final response = await http.get(
+        Uri.parse('$_baseUrl$_breedsEndpoint'),
+        headers: await _getAuthHeaders(),
+      );
+      _logger.info('Status code: ${response.statusCode}');
+      _logger.info('Response body: ${response.body}');
+      if (response.statusCode == 200) {
+        final Map<String, dynamic> decoded = json.decode(response.body);
+        final List<dynamic> results = decoded['results'];
+        return results.map((e) => AnimalBreed.fromJson(e)).toList();
+      } else {
+        throw Exception('Failed to load animal breeds: ${response.statusCode}');
+      }
+    } catch (e) {
+      throw Exception('Error fetching acquisition records: $e');
     }
   }
 
@@ -111,9 +131,9 @@ class ApiService {
       final response = await _client.get(uri, headers: headers);
 
       if (response.statusCode == 200) {
-        return (json.decode(response.body) as List)
-            .map((e) => AnimalBreed.fromJson(e))
-            .toList();
+        final Map<String, dynamic> decoded = json.decode(response.body);
+        final List<dynamic> results = decoded['results'];
+        return results.map((e) => AnimalBreed.fromJson(e)).toList();
       }
       throw _createException("Failed to load races", response);
     } catch (e) {
@@ -122,7 +142,7 @@ class ApiService {
     }
   }
 
-  Future<List<AnimalBreed>> fetchBreedsByAnimalType(int animalTypeId) async {
+ static Future<List<AnimalBreed>> fetchBreedsByAnimalType(int animalTypeId) async {
     try {
       final response = await http.get(
         Uri.parse('$_baseUrl$_breedAnimalTypes$animalTypeId'),
@@ -130,8 +150,9 @@ class ApiService {
       );
 
       if (response.statusCode == 200) {
-        List<dynamic> breedsJson = json.decode(response.body);
-        return breedsJson.map((json) => AnimalBreed.fromJson(json)).toList();
+        final Map<String, dynamic> decoded = json.decode(response.body);
+        final List<dynamic> results = decoded['results'];
+        return results.map((e) => AnimalBreed.fromJson(e)).toList();
       } else {
         throw Exception('Failed to load breeds: ${response.statusCode}');
       }
@@ -253,24 +274,6 @@ class ApiService {
     } catch (e) {
       print('Error registering death: $e');
       return false;
-    }
-  }
-
-  static Future<List<AnimalBreed>> fetchAnimalBreeds() async {
-    try {
-      final response = await http.get(
-        Uri.parse('$_baseUrl$_breedsEndpoint'),
-        headers: await _getAuthHeaders(),
-      );
-
-      if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        return data.map((json) => AnimalBreed.fromJson(json)).toList();
-      } else {
-        throw Exception('Failed to load animal breeds: ${response.statusCode}');
-      }
-    } catch (e) {
-      throw Exception('Error fetching acquisition records: $e');
     }
   }
 

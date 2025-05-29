@@ -1,15 +1,15 @@
+import 'package:firstapp/models/animal/animal.dart';
 import 'package:flutter/material.dart';
-import '../models/animal.dart';
 import '../services/api_service.dart';
 
-class AnimalsScreen extends StatefulWidget {
-  const AnimalsScreen({super.key});
+class AnimalsScreen_2 extends StatefulWidget {
+  const AnimalsScreen_2({super.key});
 
   @override
   _AnimalsScreenState createState() => _AnimalsScreenState();
 }
 
-class _AnimalsScreenState extends State<AnimalsScreen> {
+class _AnimalsScreenState extends State<AnimalsScreen_2> {
   final ApiService apiService = ApiService();
   late Future<List<Animal>> animals;
 
@@ -34,10 +34,10 @@ class _AnimalsScreenState extends State<AnimalsScreen> {
             return ListView.builder(
               itemCount: snapshot.data?.length ?? 0,
               itemBuilder: (context, index) {
-                final animal = snapshot.data![index];
+                //final animal = snapshot.data![index];
                 return ListTile(
-                  title: Text(animal.name),
-                  subtitle: Text('Type: ${animal.species}'),
+                  // title: Text(animal.name),
+                  // subtitle: Text('Type: ${animal.species}'),
                 );
               },
             );

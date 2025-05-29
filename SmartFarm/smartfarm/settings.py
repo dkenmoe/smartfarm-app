@@ -40,7 +40,6 @@ ALLOWED_HOSTS = [
     '10.0.2.15', # the emulated device itself
 ]
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -50,28 +49,35 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_filters',
     
-    #smartfarm apps
-    'users',
-    'sales',
-    'animals',
+    #smartfarm apps 
+    'productions',
     'reports',
     'finance',
-    'core',
-    'iot',
+    'account',
+    'utilities',    
     
     # Packages tiers (ex: DRF, JWT)
     'rest_framework',
     'rest_framework_simplejwt',
     'imagekit',
+    'qrcode',
+    'django.contrib.sites',
+    'joblib',
+    'sklearn',
+    'pandas',
     
     # For handling image uploads
     # 'sorl.thumbnail',    
     'corsheaders',
 ]
 
+SITE_URL = "http://127.0.0.1:8000"
+SITE_ID = 1
+
 # Specify the custom auth user model
-AUTH_USER_MODEL = 'users.CustomUser'
+AUTH_USER_MODEL = 'account.CustomUser'
 
 # Configure media files for profile pictures
 MEDIA_URL = '/media/'
@@ -83,8 +89,18 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',  # Require authentication by default
-    )
+    ),
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 25,  # Default page size
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
+
+INSTALLED_APPS += ["drf_spectacular"]
 
 # JWT Configuration
 from datetime import timedelta
@@ -106,7 +122,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',  # This must come before any middleware that might return responses
-    'django.middleware.common.CommonMiddleware',
+    'django.middleware.common.CommonMiddleware',    
+    'account.middleware.FarmContextMiddleware',
 ]
 
 ROOT_URLCONF = 'smartfarm.urls'

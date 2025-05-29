@@ -1,5 +1,7 @@
 import 'package:firstapp/screens/acquisition/acquisition_form_screen.dart';
 import 'package:firstapp/screens/acquisition/acquisition_list_screen.dart';
+import 'package:firstapp/screens/animal/animal_form_screen.dart';
+import 'package:firstapp/screens/animal/animal_list_screen.dart';
 import 'package:firstapp/screens/animal_breeds_list_screen.dart';
 import 'package:firstapp/screens/animal_inventory_list_screen.dart';
 import 'package:firstapp/screens/birth/birth_form_screen.dart';
@@ -9,6 +11,7 @@ import 'package:firstapp/screens/died/died_list_screen.dart';
 import 'package:firstapp/screens/finance/expense_form_screen.dart';
 import 'package:firstapp/screens/finance/expenses_list_screen.dart';
 import 'package:firstapp/services/acquisition_service.dart';
+import 'package:firstapp/services/animal_service.dart';
 import 'package:firstapp/services/birth_service.dart';
 import 'package:firstapp/services/died_record_service.dart';
 import 'package:firstapp/services/expense_service.dart';
@@ -67,6 +70,30 @@ class HomeScreen extends StatelessWidget {
                     initiallyExpanded: false,
                     title: const Text("Registration"),
                     children: [
+                      ListTile(
+                        leading: Icon(
+                          Icons.add_circle_outline,
+                          color: Colors.green,
+                        ),
+                        title: const Text("Register a animal"),
+                        contentPadding: EdgeInsets.only(left: 32),
+                        onTap: () {
+                          final nav = Navigator.of(context);
+                          nav.pop();
+                          nav.push(
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => AnimalFormScreen(
+                                    onSubmit: (animal) async {
+                                      await AnimalService.createAnimal(
+                                        animal,
+                                      );
+                                    },
+                                  ),
+                            ),
+                          );
+                        },
+                      ),
                       ListTile(
                         leading: Icon(
                           Icons.add_circle_outline,
@@ -148,6 +175,20 @@ class HomeScreen extends StatelessWidget {
                     initiallyExpanded: false,
                     title: const Text("Records"),
                     children: [
+                      ListTile(
+                        leading: Icon(Icons.list, color: Colors.green),
+                        title: const Text("Animals list"),
+                        contentPadding: EdgeInsets.only(left: 32),
+                        onTap: () {
+                          final nav = Navigator.of(context);
+                          nav.pop();
+                          nav.push(
+                            MaterialPageRoute(
+                              builder: (context) => AnimalListScreen(),
+                            ),
+                          );
+                        },
+                      ),
                       ListTile(
                         leading: Icon(Icons.list, color: Colors.green),
                         title: const Text("Animals Inventory"),

@@ -1,59 +1,51 @@
 from rest_framework import serializers
+from finance.models import Expense, ExpenseCategory, PaymentMethod
+from account.models import Farm
 
-from animals.models import AnimalBreed, AnimalType
-from .models import Expense, ExpenseCategory, Supplier, PaymentMethod
+class FarmRelatedSerializer(serializers.ModelSerializer):
+    """Base serializer for models with farm relationship"""
+    farm = serializers.PrimaryKeyRelatedField(
+        queryset=Farm.objects.all(),
+        required=False,  # Make it not required for backward compatibility
+        help_text="Farm ID this record belongs to"
+    )
+    
+    def create(self, validated_data):
+        # If farm is not provided, use the current farm from the request
+        if 'farm' not in validated_data:
+            request = self.context.get('request')
+            if request and hasattr(request, 'current_farm'):
+                validated_data['farm'] = request.current_farm
+            elif request and hasattr(request, 'current_farm_id'):
+                validated_data['farm'] = Farm.objects.get(id=request.current_farm_id)
+        return super().create(validated_data)
+
 
 class ExpenseCategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = ExpenseCategory
-        fields = '__all__'
+        fields = ['id', 'name', 'description', 'icon', 'color', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']
 
-class SupplierSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Supplier
-        fields = '__all__'
 
 class PaymentMethodSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaymentMethod
-        fields = '__all__'
+        fields = ['id', 'name', 'description']
+
 
 class ExpenseSerializer(serializers.ModelSerializer):
-    category = ExpenseCategorySerializer(read_only=True)
-    category_id = serializers.PrimaryKeyRelatedField(
-        queryset=ExpenseCategory.objects.all(), source='category', write_only=True
-    )
-    
-    supplier = SupplierSerializer(read_only=True)
-    supplier_id = serializers.PrimaryKeyRelatedField(
-        queryset=Supplier.objects.all(), source='supplier', write_only=True, allow_null=True, required=False
-    )
-
-    animal_breed = SupplierSerializer(read_only=True)
-    animal_breed_id = serializers.PrimaryKeyRelatedField(
-        queryset=AnimalBreed.objects.all(), source='animal_breed', write_only=True, allow_null=True, required=False
-    )
-    
-    animal_type = SupplierSerializer(read_only=True)
-    animal_type_id = serializers.PrimaryKeyRelatedField(
-        queryset=AnimalType.objects.all(), source='animal_type', write_only=True, allow_null=True, required=False
-    )
-
-    payment_method = PaymentMethodSerializer(read_only=True)
-    payment_method_id = serializers.PrimaryKeyRelatedField(
-        queryset=PaymentMethod.objects.all(), source='payment_method', write_only=True, allow_null=True, required=False
-    )
-
     class Meta:
         model = Expense
-        fields = [
-            'id', 'category', 'category_id', 'description', 'amount', 'date',
-            'supplier', 'supplier_id', 'payment_method', 'payment_method_id',
-            'created_by', 'attachment', 'invoice_number', 'is_recurrent', 'status',
-            'created_at', 'updated_at', 'animal_type', 'animal_type_id', 'animal_breed', 'animal_breed_id'
-        ]
-        read_only_fields = ['created_by', 'created_at', 'updated_at']
+        fields = '__all__'
+        read_only_fields = ['created_at', 'updated_at']
 
-    def create(self, validated_data):
-        validated_data['created_by'] = self.context['request'].user
-        return super().create(validated_data)
+    def validate(self, data):
+        # Ensure only one of animal / animal_group / animal_type is provided
+        animal = data.get('animal')
+        animal_group = data.get('animal_group')
+        animal_type = data.get('animal_type')
+
+        if not any([animal, animal_group, animal_type]):
+            raise serializers.ValidationError("At least one of animal, animal_group or animal_type must be specified.")
+        return data

@@ -19,7 +19,7 @@ class BreedSelector extends StatefulWidget {
 }
 
 class _BreedSelectorState extends State<BreedSelector> {
-  final ApiService _apiService = ApiService();
+  //final ApiService _apiService = ApiService();
   Future<List<AnimalBreed>>? _breeds;
   int? _selectedBreedId;
 
@@ -44,7 +44,7 @@ class _BreedSelectorState extends State<BreedSelector> {
 
   void _loadBreeds() {
     if (widget.animalTypeId != null) {
-      _breeds = _apiService.fetchBreedsByAnimalType(widget.animalTypeId!);
+      _breeds = ApiService.fetchBreedsByAnimalType(widget.animalTypeId!);
     } else {
       _breeds = null;
     }

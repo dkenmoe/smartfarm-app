@@ -1,0 +1,109 @@
+{
+    "version": 1,
+    "name": "Account Seed",
+    "requests": [
+      {
+        "name": "Register Admin",
+        "method": "POST",
+        "url": "{{base_url}}/api/auth/register/",
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "type": "json",
+          "content": {
+            "username": "admin",
+            "email": "admin@example.com",
+            "password": "AdminPass123",
+            "first_name": "Super",
+            "last_name": "Admin"
+          }
+        }
+      },
+      {
+        "name": "Login Admin",
+        "method": "POST",
+        "url": "{{base_url}}/api/token/",
+        "headers": [
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "type": "json",
+          "content": {
+            "username": "admin",
+            "password": "AdminPass123"
+          }
+        },
+        "tests": [
+          {
+            "type": "set_variable",
+            "name": "auth_token",
+            "value": "response.body.access"
+          }
+        ]
+      },
+      {
+        "name": "Create Farm",
+        "method": "POST",
+        "url": "{{base_url}}/api/farms/",
+        "headers": [
+          { "name": "Authorization", "value": "Bearer {{auth_token}}" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "type": "json",
+          "content": {
+            "name": "Ferme Demo",
+            "address": "Village Kolo, Z.A.",
+            "size_hectares": 10.5
+          }
+        },
+        "tests": [
+          {
+            "type": "set_variable",
+            "name": "farm_id",
+            "value": "response.body.id"
+          }
+        ]
+      },
+      {
+        "name": "Create Customer",
+        "method": "POST",
+        "url": "{{base_url}}/api/customers/",
+        "headers": [
+          { "name": "Authorization", "value": "Bearer {{auth_token}}" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "type": "json",
+          "content": {
+            "name": "Client A",
+            "phone": "+123456789",
+            "email": "clienta@example.com",
+            "address": "Quartier A",
+            "farm": "{{farm_id}}"
+          }
+        }
+      },
+      {
+        "name": "Create Supplier",
+        "method": "POST",
+        "url": "{{base_url}}/api/suppliers/",
+        "headers": [
+          { "name": "Authorization", "value": "Bearer {{auth_token}}" },
+          { "name": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "type": "json",
+          "content": {
+            "name": "Fournisseur B",
+            "contact_person": "Mr B",
+            "email": "supplierb@example.com",
+            "phone": "+987654321",
+            "address": "Zone B"
+          }
+        }
+      }
+    ]
+  }
+  
