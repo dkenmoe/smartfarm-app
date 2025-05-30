@@ -26,12 +26,13 @@ class AnimalService {
       if (breedId != null) queryParams['breed'] = '$breedId';
       if (status != null) queryParams['status'] = status;
 
-      final uri = Uri.parse('$_baseUrl$_endpoint').replace(queryParameters: queryParams);
+      final uri = Uri.parse(
+        '$_baseUrl$_endpoint',
+      ).replace(queryParameters: queryParams);
       final response = await _client.get(uri, headers: headers);
 
       if (response.statusCode == 200) {
-
-          final Map<String, dynamic> decoded = json.decode(response.body);
+        final Map<String, dynamic> decoded = json.decode(response.body);
         final List<dynamic> results = decoded['results'];
         return results.map((e) => Animal.fromJson(e)).toList();
 

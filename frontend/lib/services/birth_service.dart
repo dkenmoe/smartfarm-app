@@ -10,18 +10,24 @@ class BirthService {
   static final http.Client _client = http.Client();
   static final _logger = LoggerService();
 
-  static const String _birthRecordsEndpoint = '/animals/birth-records/';
+  static const String _birthRecordsEndpoint = '/productions/birth-records/';
 
- static Future<List<BirthRecord>> fetchBirthRecords() async {
+  static Future<List<BirthRecord>> fetchBirthRecords({int? farmId}) async {
     try {
+      // Build the URI with optional query parameters
+      final uri = Uri.parse('$_baseUrl$_birthRecordsEndpoint').replace(
+        queryParameters: farmId != null ? {'farm_id': farmId.toString()} : null,
+      );
+
       final response = await _client.get(
-        Uri.parse('$_baseUrl$_birthRecordsEndpoint'),
+        uri,
         headers: await ApiHelper.getAuthHeaders(),
       );
 
       if (response.statusCode == 200) {
-        final List<dynamic> data = json.decode(response.body);
-        return data.map((item) => BirthRecord.fromJson(item)).toList();
+        final Map<String, dynamic> data = json.decode(response.body);
+        final List<dynamic> results = data['results'];
+        return results.map((e) => BirthRecord.fromJson(e)).toList();
       } else {
         _logger.error('Failed to load birth records: ${response.statusCode}');
         return [];
@@ -39,7 +45,7 @@ class BirthService {
         headers: await ApiHelper.getAuthHeaders(),
         body: json.encode(birthRecord.toJson()),
       );
-      
+
       return response.statusCode == 201;
     } catch (e) {
       _logger.error('Error registering birth: $e');
@@ -54,7 +60,7 @@ class BirthService {
         headers: await ApiHelper.getAuthHeaders(),
         body: json.encode(birthRecord.toJson()),
       );
-      
+
       return response.statusCode == 200;
     } catch (e) {
       _logger.error('Error updating birth record: $e');
@@ -68,7 +74,7 @@ class BirthService {
         Uri.parse('$_baseUrl$_birthRecordsEndpoint$id'),
         headers: await ApiHelper.getAuthHeaders(),
       );
-      
+
       return response.statusCode == 200;
     } catch (e) {
       _logger.error('Error deleting birth record: $e');

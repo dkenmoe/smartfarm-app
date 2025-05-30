@@ -76,18 +76,88 @@ class WeightCategorySerializer(serializers.ModelSerializer):
         fields = ['id', 'min_weight', 'max_weight', 'created_by']
         read_only_fields = ['created_by']
 
-class BirthRecordSerializer(FarmRelatedSerializer):
+class BirthRecordSerializer(serializers.ModelSerializer):
     created_by_name = serializers.CharField(source='created_by.username', read_only=True)
-    total_born = serializers.SerializerMethodField(read_only=True)
+    animal_type_id = serializers.SerializerMethodField()
+    animal_type_name = serializers.SerializerMethodField()
+    breed_id = serializers.SerializerMethodField()
+    breed_name = serializers.SerializerMethodField()
+    farm_name = serializers.CharField(source='farm.name', read_only=True)
+    attachment_url = serializers.SerializerMethodField()
 
     class Meta:
         model = BirthRecord
         fields = [
-            'id', 'animal', 'animal_group', 'weight', 'number_of_male', 'number_of_female',
-            'number_of_died', 'total_born', 'date_of_birth', 'notes', 'attachment',
-            'created_by', 'created_by_name', 'farm'
+            'id',
+            'animal', 'animal_group',
+            'animal_type_id', 'animal_type_name',
+            'breed_id', 'breed_name',
+            'weight',
+            'number_of_male', 'number_of_female', 'number_of_died',
+            'date_of_birth',
+            'notes',
+            'attachment', 'attachment_url',
+            'farm', 'farm_name',
+            'created_by', 'created_by_name',
+            'created_at',
         ]
-        read_only_fields = ['created_by', 'created_by_name']
+        read_only_fields = [
+            'created_by', 'created_by_name',
+            'animal_type_id', 'animal_type_name',
+            'breed_id', 'breed_name',
+            'farm_name', 'attachment_url',
+            'created_at'
+        ]
+
+    def get_animal_type_id(self, obj):
+        if obj.animal:
+            return obj.animal.animal_type.id
+        elif obj.animal_group:
+            return obj.animal_group.animal_type.id
+        return None
+
+    def get_animal_type_name(self, obj):
+        if obj.animal:
+            return obj.animal.animal_type.name
+        elif obj.animal_group:
+            return obj.animal_group.animal_type.name
+        return None
+
+    def get_breed_id(self, obj):
+        if obj.animal:
+            return obj.animal.breed.id
+        elif obj.animal_group:
+            return obj.animal_group.breed.id
+        return None
+
+    def get_breed_name(self, obj):
+        if obj.animal:
+            return obj.animal.breed.name
+        elif obj.animal_group:
+            return obj.animal_group.breed.name
+        return None
+
+    def get_attachment_url(self, obj):
+        request = self.context.get('request')
+        if obj.attachment and request:
+            return request.build_absolute_uri(obj.attachment.url)
+        elif obj.attachment:
+            return obj.attachment.url
+        return None
+
+    def validate(self, data):
+        animal = data.get('animal')
+        animal_group = data.get('animal_group')
+        total = data.get('number_of_male', 0) + data.get('number_of_female', 0) + data.get('number_of_died', 0)
+
+        if animal and animal_group:
+            raise serializers.ValidationError("Only one of 'animal' or 'animal_group' can be set.")
+        if not animal and not animal_group:
+            raise serializers.ValidationError("You must provide either 'animal' or 'animal_group'.")
+        if total == 0:
+            raise serializers.ValidationError("Total number of births must be greater than 0.")
+        return data
+
 
     def get_total_born(self, obj):
         return obj.number_of_male + obj.number_of_female + obj.number_of_died
